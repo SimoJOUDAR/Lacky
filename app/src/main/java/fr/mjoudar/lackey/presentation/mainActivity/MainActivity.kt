@@ -1,7 +1,8 @@
-package fr.mjoudar.lackey
+package fr.mjoudar.lackey.presentation.mainActivity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import fr.mjoudar.lackey.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
