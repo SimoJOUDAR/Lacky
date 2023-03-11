@@ -6,35 +6,59 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
-import fr.mjoudar.lackey.R
+import com.google.android.material.tabs.TabLayoutMediator
 import fr.mjoudar.lackey.databinding.FragmentHomePageBinding
+import fr.mjoudar.lackey.presentation.adapters.MainViewpagerAdapter
+import fr.mjoudar.lackey.presentation.gridView.GridViewFragment
 
 class HomePageFragment : Fragment() {
 
     private var _binding: FragmentHomePageBinding? = null
     private val binding get() = _binding!!
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    private lateinit var adapter: MainViewpagerAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
         _binding = FragmentHomePageBinding.inflate(inflater, container, false)
-
-        setButtons() // TODO: Test
-
         return binding.root
     }
 
-    private fun setButtons() {
-        binding.button1.setOnClickListener {
-            findNavController().navigate(R.id.action_homePageFragment_to_deviceSteeringFragment)
-        }
-        binding.button2.setOnClickListener {
-            findNavController().navigate(R.id.action_homePageFragment_to_myAccountFragment)
-        }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setViewpager()
     }
+
+    private fun setViewpager() {
+        findNavController().previousBackStackEntry?.savedStateHandle?.set("key", true)
+
+        // The fragment list contains four instances of GridViewFragment. Each one acts as a reusable filter tab : All, Light, Shutter, Heater.
+        val fragmentList = arrayListOf(GridViewFragment(), GridViewFragment(), GridViewFragment(), GridViewFragment())
+        adapter = MainViewpagerAdapter(fragmentList, childFragmentManager, lifecycle)
+        binding.viewPager.adapter = adapter
+        //binding.viewPager.isUserInputEnabled = false
+        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
+            when (position) {
+
+                // TODO: use String resource   &   handle icon color change
+                0 -> {
+                    tab.text = "All"
+                    //tab.setIcon(R.drawable.ic_list_24)
+                }
+                1 -> {
+                    tab.text = "Light"
+                    //tab.setIcon(R.drawable.ic_map_24)
+                }
+                2 -> {
+                    tab.text = "Shutter"
+                    //tab.setIcon(R.drawable.ic_map_24)
+                }
+                3 -> {
+                    tab.text = "Heater"
+                    //tab.setIcon(R.drawable.ic_map_24)
+                }
+            }
+        }.attach()
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
