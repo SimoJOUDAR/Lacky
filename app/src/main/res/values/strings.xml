@@ -9,7 +9,17 @@
     <string name="heater">Heater</string>
     <string name="on" translatable="false">On</string>
     <string name="off" translatable="false">Off</string>
-
+    <string name="my_account">My account</string>
+    <string name="full_name">Full name</string>
+    <string name="birth_date">Birth date</string>
+    <string name="address">Address</string>
+    <string name="edit">Edit</string>
+    <string name="save">Save</string>
+    <string name="first_name">First name</string>
+    <string name="last_name">Last name</string>
+    <string name="street_name">Street name</string>
+    <string name="city">City</string>
+    <string name="country">Country</string>
 
 
 </resources>
