@@ -33,7 +33,7 @@
                 android:layout_height="match_parent"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:spanCount="2"
-                tools:listitem="@layout/device_item"
+                tools:listitem="@layout/layout_grid_item"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"

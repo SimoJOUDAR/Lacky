@@ -10,7 +10,8 @@
 
     <color name="gradient_start_color">#4231AB</color>
     <color name="gradient_end_color">#7467DE</color>
-    <color name="tile_color">#5350CE</color>
+    <color name="warm_blue">#5350CE</color>
+    <color name="biloba_flower">#a9a7e6</color>
     <color name="light_grey">#CED4E0</color>
 
 </resources>

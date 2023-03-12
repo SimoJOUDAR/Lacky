@@ -7,7 +7,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="160dp"
         android:layout_height="180dp"
-        android:background="@drawable/tile_shape"
+        android:background="@drawable/shape_warm_blue_radius_corner"
         android:layout_margin="8dp"
         android:orientation="vertical">
 

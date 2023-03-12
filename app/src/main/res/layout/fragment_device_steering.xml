@@ -1,10 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".presentation.deviceSteering.DeviceSteeringFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".presentation.deviceSteering.DeviceSteeringFragment"
+        android:background="@color/warm_blue"
+        android:orientation="vertical">
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/shape_maya_blue_gradient_radius_corner"
+            android:padding="20dp"
+            android:layout_margin="48dp">
 
-</FrameLayout>
+            <ImageView
+                android:id="@+id/device_img"
+                android:layout_width="180dp"
+                android:layout_height="180dp"
+                android:contentDescription="@string/device_image"
+                android:src="@drawable/generic_device"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/device_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/device_img"
+                tools:text="Device"
+                style="@style/device_steering_name" />
+
+            <TextView
+                android:id="@+id/mode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/device_name"
+                tools:text="On"
+                android:layout_margin="12dp"
+                style="@style/device_steering_specs" />
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                style="@style/CircularProgressBar"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/mode"
+                app:layout_constraintBottom_toTopOf="@id/button_decr"
+                tools:progress="60" />
+
+            <TextView
+                android:id="@+id/specs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@+id/progress_bar"
+                app:layout_constraintEnd_toEndOf="@+id/progress_bar"
+                app:layout_constraintStart_toStartOf="@+id/progress_bar"
+                app:layout_constraintTop_toTopOf="@+id/progress_bar"
+                tools:text="60%"
+                style="@style/device_steering_specs" />
+
+            <Button
+                android:id="@+id/button_decr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="- 10%"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/button_incr"
+                app:layout_constraintTop_toBottomOf="@+id/progress_bar"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <Button
+                android:id="@+id/button_incr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+ 10%"
+                app:layout_constraintStart_toEndOf="@id/button_decr"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/progress_bar"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </FrameLayout>
+
+</layout>
