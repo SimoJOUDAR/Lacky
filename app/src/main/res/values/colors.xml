@@ -8,8 +8,9 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="gradient_start_color">#0b1672</color>
-    <color name="gradient_end_color">#6d7ad2</color>
+    <color name="gradient_start_color">#4231AB</color>
+    <color name="gradient_end_color">#7467DE</color>
+    <color name="tile_color">#5350CE</color>
     <color name="light_grey">#CED4E0</color>
 
 </resources>

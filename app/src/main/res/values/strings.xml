@@ -1,6 +1,15 @@
 <resources>
-    <string name="app_name">Lackey</string>
+    <string name="app_name" translatable="false">Lackey</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="lackey" translatable="false">Lackey</string>
+
     <string name="title2">Monitor your home with a touch</string>
+    <string name="device_image">Device image</string>
+    <string name="light">Light</string>
+    <string name="roller_shutter">Roller shutter</string>
+    <string name="heater">Heater</string>
+    <string name="on" translatable="false">On</string>
+    <string name="off" translatable="false">Off</string>
+
+
+
 </resources>

@@ -29,7 +29,6 @@ class HomePageFragment : Fragment() {
 
     private fun setViewpager() {
         findNavController().previousBackStackEntry?.savedStateHandle?.set("key", true)
-
         // The fragment list contains four instances of GridViewFragment. Each one acts as a reusable filter tab : All, Light, Shutter, Heater.
         val fragmentList = arrayListOf(GridViewFragment(), GridViewFragment(), GridViewFragment(), GridViewFragment())
         adapter = MainViewpagerAdapter(fragmentList, childFragmentManager, lifecycle)
@@ -37,23 +36,17 @@ class HomePageFragment : Fragment() {
         //binding.viewPager.isUserInputEnabled = false
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             when (position) {
-
-                // TODO: use String resource   &   handle icon color change
                 0 -> {
                     tab.text = "All"
-                    //tab.setIcon(R.drawable.ic_list_24)
                 }
                 1 -> {
                     tab.text = "Light"
-                    //tab.setIcon(R.drawable.ic_map_24)
                 }
                 2 -> {
                     tab.text = "Shutter"
-                    //tab.setIcon(R.drawable.ic_map_24)
                 }
                 3 -> {
                     tab.text = "Heater"
-                    //tab.setIcon(R.drawable.ic_map_24)
                 }
             }
         }.attach()

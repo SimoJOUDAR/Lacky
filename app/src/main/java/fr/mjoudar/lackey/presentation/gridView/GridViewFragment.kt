@@ -29,12 +29,12 @@ class GridViewFragment : Fragment() {
 
     private fun filterBy(bundle: Bundle) {
         option = bundle.getInt("option", 0)
-        when (option) {
-            0 -> binding.textView.text = "GridViewFragment - All"
-            1 -> binding.textView.text = "GridViewFragment - Light"
-            2 -> binding.textView.text = "GridViewFragment - Shutter"
-            3 -> binding.textView.text = "GridViewFragment - Heater"
-        }
+//        when (option) {
+//            0 -> binding.textView.text = "GridViewFragment - All"
+//            1 -> binding.textView.text = "GridViewFragment - Light"
+//            2 -> binding.textView.text = "GridViewFragment - Shutter"
+//            3 -> binding.textView.text = "GridViewFragment - Heater"
+//        }
     }
 
 }
