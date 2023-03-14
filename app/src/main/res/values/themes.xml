@@ -47,7 +47,6 @@
 
     <style name="tile_specs" parent="Lato_font">
         <item name="android:textSize">14sp</item>
-        <item name="android:layout_marginTop">8dp</item>
     </style>
 
     <!-- DeviceSteering styles. -->
@@ -55,14 +54,14 @@
         <item name="fontFamily">@font/lato</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textSize">28sp</item>
+        <item name="android:textSize">20sp</item>
         <item name="android:layout_marginTop">8dp</item>
     </style>
 
     <style name="device_steering_specs" parent="">
         <item name="fontFamily">@font/lato</item>
         <item name="android:textColor">@color/white</item>
-        <item name="android:textSize">25sp</item>
+        <item name="android:textSize">18sp</item>
     </style>
 
     <!-- CircularProgressBar styles. -->

@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayoutMediator
 import fr.mjoudar.lackey.databinding.FragmentHomePageBinding
@@ -15,6 +16,7 @@ class HomePageFragment : Fragment() {
 
     private var _binding: FragmentHomePageBinding? = null
     private val binding get() = _binding!!
+    private val viewModel: HomePageViewModel by viewModels()
     private lateinit var adapter: MainViewpagerAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -33,29 +35,34 @@ class HomePageFragment : Fragment() {
         val fragmentList = arrayListOf(GridViewFragment(), GridViewFragment(), GridViewFragment(), GridViewFragment())
         adapter = MainViewpagerAdapter(fragmentList, childFragmentManager, lifecycle)
         binding.viewPager.adapter = adapter
-        //binding.viewPager.isUserInputEnabled = false
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             when (position) {
-                0 -> {
+                ALL_TAB -> {
                     tab.text = "All"
                 }
-                1 -> {
+                LIGHT_TAB -> {
                     tab.text = "Light"
                 }
-                2 -> {
+                ROLLER_SHUTTER_TAB -> {
                     tab.text = "Shutter"
                 }
-                3 -> {
+                HEATER_TAB -> {
                     tab.text = "Heater"
                 }
             }
         }.attach()
     }
 
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    companion object {
+        const val ALL_TAB = 0
+        const val LIGHT_TAB = 1
+        const val ROLLER_SHUTTER_TAB = 2
+        const val HEATER_TAB = 3
     }
 
 }
