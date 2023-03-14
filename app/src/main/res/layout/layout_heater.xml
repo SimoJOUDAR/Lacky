@@ -56,6 +56,8 @@
                 tools:text="On"
                 android:text="@{heater.mode.name()}"
                 android:layout_margin="12dp"
+                android:padding="10dp"
+                android:background="@drawable/border_radius_white"
                 style="@style/device_steering_specs" />
 
             <ProgressBar
@@ -78,6 +80,7 @@
                 app:layout_constraintStart_toStartOf="@+id/progress_bar_heater"
                 app:layout_constraintTop_toTopOf="@+id/progress_bar_heater"
                 tools:text="21°"
+                temperature="@{heater.temperature}"
                 style="@style/device_steering_specs" />
 
             <Button

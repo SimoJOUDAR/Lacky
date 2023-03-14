@@ -66,6 +66,7 @@
                 app:layout_constraintStart_toStartOf="@+id/progress_bar_rs"
                 app:layout_constraintTop_toTopOf="@+id/progress_bar_rs"
                 tools:text="60%"
+                intensity="@{rollerShutter.position}"
                 style="@style/device_steering_specs" />
 
             <Button

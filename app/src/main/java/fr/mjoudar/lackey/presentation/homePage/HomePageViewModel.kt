@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import fr.mjoudar.lackey.domain.models.Device
-import fr.mjoudar.lackey.domain.models.User
 import fr.mjoudar.lackey.repositories.DataRepository
 import kotlinx.coroutines.launch
 
@@ -22,6 +21,12 @@ class HomePageViewModel: ViewModel() {
             val devices = repository.getDevices()
             _devicesLiveData.postValue(devices)
         }
+    }
+
+    fun updateDevice(device: Device) {
+        val newList = _devicesLiveData.value!!.toMutableList()
+        for (i in 0 until newList.size) if (newList[i].id == device.id) newList[i] = device
+        _devicesLiveData.postValue(newList)
     }
 
     fun deleteDevice(id: Int) {

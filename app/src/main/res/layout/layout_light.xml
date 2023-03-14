@@ -53,9 +53,11 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/device_name_light"
                 app:layout_constraintBottom_toTopOf="@id/progress_bar_light"
-                tools:text="On"
+                tools:text="ON"
                 android:text="@{light.mode.name()}"
                 android:layout_margin="12dp"
+                android:padding="10dp"
+                android:background="@drawable/border_radius_white"
                 style="@style/device_steering_specs" />
 
             <ProgressBar
@@ -78,6 +80,7 @@
                 app:layout_constraintStart_toStartOf="@+id/progress_bar_light"
                 app:layout_constraintTop_toTopOf="@+id/progress_bar_light"
                 tools:text="60%"
+                intensity="@{light.intensity}"
                 style="@style/device_steering_specs" />
 
             <Button

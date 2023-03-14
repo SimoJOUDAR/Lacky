@@ -53,7 +53,7 @@ class GridViewFragment : Fragment() {
                 is RollerShutter -> bundle.putParcelable(DeviceSteeringFragment.DEVICE_ARG, item.toDevice())
                 is Heater -> bundle.putParcelable(DeviceSteeringFragment.DEVICE_ARG, item.toDevice())
             }
-            itemView.findNavController().navigate(R.id.deviceSteeringFragment, bundle)
+            itemView.findNavController().navigate(R.id.deviceSteeringFragment, bundle)  //TODO: Or use NavigationAction ?
         }
 
         val onDeleteClickListener = View.OnClickListener { itemView ->
