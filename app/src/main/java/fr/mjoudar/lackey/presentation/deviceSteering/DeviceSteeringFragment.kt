@@ -7,11 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import fr.mjoudar.lackey.databinding.FragmentDeviceSteeringBinding
 import fr.mjoudar.lackey.domain.models.Device
 import fr.mjoudar.lackey.domain.models.ProductType
 import fr.mjoudar.lackey.presentation.homePage.HomePageViewModel
+import fr.mjoudar.lackey.presentation.myAccount.MyAccountFragmentDirections
+
 @AndroidEntryPoint
 class DeviceSteeringFragment : Fragment() {
 
@@ -29,6 +32,7 @@ class DeviceSteeringFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         loadData()
+        setUpButtonListener()
     }
 
     /**********************************************************************************************
@@ -129,6 +133,12 @@ class DeviceSteeringFragment : Fragment() {
     private fun heaterSeekbarListener() {
         binding.heaterInfoViewer.progressBarHeater.setOnClickListener {
             deviceSteeringViewModel.seekBarHeaterListener(binding.heaterInfoViewer.progressBarHeater.progress)
+        }
+    }
+
+    private fun setUpButtonListener() {
+        binding.up.setOnClickListener {
+            findNavController().navigate(DeviceSteeringFragmentDirections.actionDeviceSteeringFragmentToHomePageFragment())
         }
     }
 

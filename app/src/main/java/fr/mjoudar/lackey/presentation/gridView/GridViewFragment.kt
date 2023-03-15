@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import fr.mjoudar.lackey.R
 import fr.mjoudar.lackey.databinding.FragmentGridViewBinding
@@ -16,6 +17,7 @@ import fr.mjoudar.lackey.domain.models.*
 import fr.mjoudar.lackey.presentation.adapters.GridViewAdapter
 import fr.mjoudar.lackey.presentation.deviceSteering.DeviceSteeringFragment
 import fr.mjoudar.lackey.presentation.homePage.HomePageFragment
+import fr.mjoudar.lackey.presentation.homePage.HomePageFragmentDirections
 import fr.mjoudar.lackey.presentation.homePage.HomePageViewModel
 import kotlin.math.log
 
@@ -46,14 +48,15 @@ class GridViewFragment : Fragment() {
      ***********************************************************************************************/
     private fun setRecyclerView() {
         val onItemClickListener = View.OnClickListener { itemView ->
-            val item = itemView.tag
-            val bundle = Bundle()
-            when (item) {
-                is Light -> bundle.putParcelable(DeviceSteeringFragment.DEVICE_ARG, item.toDevice())
-                is RollerShutter -> bundle.putParcelable(DeviceSteeringFragment.DEVICE_ARG, item.toDevice())
-                is Heater -> bundle.putParcelable(DeviceSteeringFragment.DEVICE_ARG, item.toDevice())
+            val device = when (val item = itemView.tag) {
+                is Light -> item.toDevice()
+                is RollerShutter -> item.toDevice()
+                is Heater -> item.toDevice()
+                else -> null
             }
-            itemView.findNavController().navigate(R.id.deviceSteeringFragment, bundle)  //TODO: Or use NavigationAction ?
+            device?.let {
+                findNavController().navigate(HomePageFragmentDirections.actionHomePageFragmentToDeviceSteeringFragment(it))
+            }
         }
 
         val onDeleteClickListener = View.OnClickListener { itemView ->

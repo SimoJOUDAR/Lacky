@@ -52,6 +52,14 @@
             app:heater="@{heater}"
             app:viewModel="@{viewModel}"/>
 
+        <ImageView
+            android:id="@+id/up"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/ic_back"/>
+
     </FrameLayout>
 
 </layout>

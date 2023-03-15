@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import fr.mjoudar.lackey.R
 import fr.mjoudar.lackey.databinding.FragmentHomePageBinding
@@ -28,12 +29,10 @@ class MyAccountFragment : Fragment() {
             calendar.set(Calendar.YEAR, year)
             calendar.set(Calendar.MONTH, monthOfYear)
             calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-            binding.infoEditor.user?.birthDate = (calendar.time).time
+            var user = binding.infoEditor.user
+            user?.birthDate = (calendar.time).time
+            binding.infoEditor.user = user
         }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -48,8 +47,8 @@ class MyAccountFragment : Fragment() {
         setEditButtonListener()
         setSaveButtonListener()
         setDatePickerListener()
+        setUpButtonListener()
     }
-
 
     private fun fetchUser() {
         viewModel.retrieveUser()
@@ -95,6 +94,12 @@ class MyAccountFragment : Fragment() {
             calendar.get(Calendar.DAY_OF_MONTH)
         )
         picker.show()
+    }
+
+    private fun setUpButtonListener() {
+        binding.up.setOnClickListener {
+            findNavController().navigate(MyAccountFragmentDirections.actionMyAccountFragmentToHomePageFragment())
+        }
     }
 
     override fun onDestroyView() {

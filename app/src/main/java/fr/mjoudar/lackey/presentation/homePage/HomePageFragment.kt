@@ -57,7 +57,8 @@ class HomePageFragment : Fragment() {
 
     private fun setOnClickListener() {
         binding.profile.setOnClickListener {
-            it.findNavController().navigate(R.id.myAccountFragment)  //TODO: Or use NavigationAction ?
+            findNavController().navigate(HomePageFragmentDirections.actionHomePageFragmentToMyAccountFragment())
+
         }
     }
 

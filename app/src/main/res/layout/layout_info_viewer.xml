@@ -15,150 +15,150 @@
         android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="120dp"
-            android:layout_marginHorizontal="40dp"
-            android:text="@string/my_account"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            style="@style/my_account_title" />
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card_view_name"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/card_view"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/title">
+            android:layout_height="wrap_content">
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="120dp"
+                android:layout_marginHorizontal="40dp"
+                android:text="@string/my_account"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                style="@style/my_account_title" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_view_name"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="wrap_content"
+                style="@style/card_view"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/title">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/my_account_text_view_topping"
-                    android:text="@string/full_name"/>
-
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawablePadding="10dp"
-                    fullName="@{user}"
-                    style="@style/my_account_text_to_display"
-                    tools:text="Michael Jackson"
-                    app:drawableStartCompat="@drawable/ic_person" />
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
-            </LinearLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/my_account_text_view_topping"
+                        android:text="@string/full_name"/>
 
-        </androidx.cardview.widget.CardView>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="10dp"
+                        fullName="@{user}"
+                        style="@style/my_account_text_to_display"
+                        tools:text="Michael Jackson"
+                        app:drawableStartCompat="@drawable/ic_person" />
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card_view_birth_date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/card_view"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/card_view_name">
+                </LinearLayout>
 
-            <LinearLayout
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_view_birth_date"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="wrap_content"
+                style="@style/card_view"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/card_view_name">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/my_account_text_view_topping"
-                    android:text="@string/birth_date"/>
-
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawablePadding="10dp"
-                    style="@style/my_account_text_to_display"
-                    tools:text="08/29/1958"
-                    birthDate="@{user}"
-                    app:drawableStartCompat="@drawable/ic_birthdate" />
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
-            </LinearLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/my_account_text_view_topping"
+                        android:text="@string/birth_date"/>
 
-        </androidx.cardview.widget.CardView>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="10dp"
+                        style="@style/my_account_text_to_display"
+                        tools:text="08/29/1958"
+                        birthDate="@{user}"
+                        app:drawableStartCompat="@drawable/ic_birthdate" />
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card_view_address"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/card_view"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/card_view_birth_date">
+                </LinearLayout>
 
-            <LinearLayout
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_view_address"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="wrap_content"
+                style="@style/card_view"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/card_view_birth_date">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    style="@style/my_account_text_view_topping"
-                    android:text="@string/address"/>
-
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawableStart="@drawable/ic_address"
-                    android:drawablePadding="10dp"
-                    style="@style/my_account_text_to_display"
-                    addressLine1="@{user}"
-                    tools:text="21 Malibu Street"/>
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawableStart="@drawable/ic_address_white"
-                    android:drawablePadding="10dp"
-                    style="@style/my_account_text_address"
-                    addressLine2="@{user}"
-                    tools:text="93456 Los Angelos"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/my_account_text_view_topping"
+                        android:text="@string/address"/>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawableStart="@drawable/ic_address_white"
-                    android:drawablePadding="10dp"
-                    style="@style/my_account_text_address"
-                    addressLine3="@{user}"
-                    tools:text="California, US"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/ic_address"
+                        android:drawablePadding="10dp"
+                        style="@style/my_account_text_to_display"
+                        addressLine1="@{user}"
+                        tools:text="21 Malibu Street"/>
 
-            </LinearLayout>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/ic_address_white"
+                        android:drawablePadding="10dp"
+                        style="@style/my_account_text_address"
+                        addressLine2="@{user}"
+                        tools:text="93456 Los Angelos"/>
 
-        </androidx.cardview.widget.CardView>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/ic_address_white"
+                        android:drawablePadding="10dp"
+                        style="@style/my_account_text_address"
+                        addressLine3="@{user}"
+                        tools:text="California, US"/>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/button_edit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="@id/card_view_address"
-            app:layout_constraintTop_toBottomOf="@id/card_view_address"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginVertical="40dp"
-            android:text="@string/edit"
-            android:drawableEnd="@drawable/ic_edit"
-            android:textSize="16sp"
-            android:paddingHorizontal="24dp"
-            android:paddingVertical="14dp"
-            app:cornerRadius="16dp" />
+                </LinearLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="@id/card_view_address"
+                app:layout_constraintTop_toBottomOf="@id/card_view_address"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginVertical="40dp"
+                android:text="@string/edit"
+                android:drawableEnd="@drawable/ic_edit"
+                android:textSize="16sp"
+                android:paddingHorizontal="24dp"
+                android:paddingVertical="14dp"
+                app:cornerRadius="16dp" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
 </layout>
