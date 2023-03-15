@@ -6,17 +6,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import dagger.hilt.android.AndroidEntryPoint
 import fr.mjoudar.lackey.databinding.FragmentDeviceSteeringBinding
 import fr.mjoudar.lackey.domain.models.Device
-import fr.mjoudar.lackey.domain.models.Mode
 import fr.mjoudar.lackey.domain.models.ProductType
 import fr.mjoudar.lackey.presentation.homePage.HomePageViewModel
-
+@AndroidEntryPoint
 class DeviceSteeringFragment : Fragment() {
 
     private var _binding: FragmentDeviceSteeringBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: HomePageViewModel by activityViewModels()
+    private val homepageViewModel: HomePageViewModel by activityViewModels()
+    private val deviceSteeringViewModel: DeviceSteeringViewModel by viewModels()
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -27,28 +29,45 @@ class DeviceSteeringFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         loadData()
-        setupListener()
     }
 
+    /**********************************************************************************************
+     * Display and data loading
+     **********************************************************************************************/
     private fun loadData() {
-        // TODO: extract argument and convert it using when {}
         arguments?.let {
+            binding.viewModel = deviceSteeringViewModel
             val device = it.getParcelable<Device>(DEVICE_ARG)
             when (device!!.productType) {
+
                 ProductType.Light-> {
-                    binding.light = device.toLight()
+                    val data = device.toLight()
+                    binding.light = data
+                    deviceSteeringViewModel.setLight(data)
+                    setLightObservers()
+                    lightSeekbarListener()
                     binding.lightInfoViewer.viewLight.visibility = View.VISIBLE
                     binding.rollerShutterInfoViewer.viewRs.visibility = View.GONE
                     binding.heaterInfoViewer.viewHeater.visibility = View.GONE
                 }
+
                 ProductType.RollerShutter-> {
-                    binding.rollerShutter = device.toRollerShutter()
+                    val data = device.toRollerShutter()
+                    binding.rollerShutter = data
+                    deviceSteeringViewModel.setRollerShutter(data)
+                    setRsObservers()
+                    rstSeekbarListener()
                     binding.lightInfoViewer.viewLight.visibility = View.GONE
                     binding.rollerShutterInfoViewer.viewRs.visibility = View.VISIBLE
                     binding.heaterInfoViewer.viewHeater.visibility = View.GONE
                 }
+
                 else -> {
-                    binding.heater = device.toHeater()
+                    val data = device.toHeater()
+                    binding.heater = data
+                    deviceSteeringViewModel.setHeater(data)
+                    setHeaterObservers()
+                    heaterSeekbarListener()
                     binding.lightInfoViewer.viewLight.visibility = View.GONE
                     binding.rollerShutterInfoViewer.viewRs.visibility = View.GONE
                     binding.heaterInfoViewer.viewHeater.visibility = View.VISIBLE
@@ -57,83 +76,62 @@ class DeviceSteeringFragment : Fragment() {
         }
     }
 
-    private fun setupListener() {
-        binding.light?.let { setupLightListeners() }
-        binding.rollerShutter?.let { setupRollerShutterListener() }
-        binding.heater?.let { setupHeaterListener() }
-    }
+    /**********************************************************************************************
+     * Observers
+     **********************************************************************************************/
 
-    private fun setupLightListeners() {
-        binding.lightInfoViewer.modeLight.setOnClickListener {
-            val light = binding.light!!
-            light.mode = switchOnOff(light.mode)
-            binding.light = light
-            viewModel.updateDevice(light.toDevice())
-        }
-        binding.lightInfoViewer.buttonDecrLight.setOnClickListener {
-            val light = binding.light!!
-            if (light.intensity > STEP) light.intensity = light.intensity - STEP
-            else light.intensity = PERCENTAGE_LOWER_LIMIT
-            binding.light = light
-            viewModel.updateDevice(light.toDevice())
-        }
-        binding.lightInfoViewer.buttonIncrLight.setOnClickListener {
-            val light = binding.light!!
-            if (light.intensity < PERCENTAGE_UPPER_LIMIT - STEP) light.intensity = light.intensity + STEP
-            else light.intensity = PERCENTAGE_UPPER_LIMIT
-            binding.light = light
-            viewModel.updateDevice(light.toDevice())
+    // Observes changes in DeviceSteeringViewModel's lightLivedata
+    private fun setLightObservers() {
+        deviceSteeringViewModel.lightLivedata.observe(viewLifecycleOwner) {
+            it?.let {
+                binding.light = it
+                homepageViewModel.updateDevice(it.toDevice())
+            }
         }
     }
 
-    private fun setupRollerShutterListener() {
-        binding.rollerShutterInfoViewer.buttonDecrRs.setOnClickListener {
-            val rollerShutter = binding.rollerShutter!!
-            if (rollerShutter.position > STEP) rollerShutter.position = rollerShutter.position - STEP
-            else rollerShutter.position = PERCENTAGE_LOWER_LIMIT
-            binding.rollerShutter = rollerShutter
-            viewModel.updateDevice(rollerShutter.toDevice())
-        }
-        binding.rollerShutterInfoViewer.buttonIncrRs.setOnClickListener {
-            val rollerShutter = binding.rollerShutter!!
-            if (rollerShutter.position < PERCENTAGE_UPPER_LIMIT - STEP) rollerShutter.position = rollerShutter.position + STEP
-            else rollerShutter.position = PERCENTAGE_UPPER_LIMIT
-            binding.rollerShutter = rollerShutter
-            viewModel.updateDevice(rollerShutter.toDevice())
+    // Observes changes in DeviceSteeringViewModel's rsLiveData
+    private fun setRsObservers() {
+        deviceSteeringViewModel.rsLiveData.observe(viewLifecycleOwner) {
+            it?.let {
+                binding.rollerShutter = it
+                homepageViewModel.updateDevice(it.toDevice())
+            }
         }
     }
 
-    private fun setupHeaterListener() {
-        binding.heaterInfoViewer.modeHeater.setOnClickListener {
-            val heater = binding.heater!!
-            heater.mode = switchOnOff(heater.mode)
-            binding.heater = heater
-            viewModel.updateDevice(heater.toDevice())
+    // Observes changes in DeviceSteeringViewModel's heaterLiveData
+    private fun setHeaterObservers() {
+        deviceSteeringViewModel.heaterLiveData.observe(viewLifecycleOwner) {
+            it?.let {
+                binding.heater = it
+                homepageViewModel.updateDevice(it.toDevice())
+            }
         }
-        binding.heaterInfoViewer.buttonDecrHeater.setOnClickListener { //TODO : change 10% to 0.5°
-            val heater = binding.heater!!
-            if (heater.temperature > TEMPERATURE_LOWER_LIMIT + TEMPERATURE_STEP)
-                heater.temperature = heater.temperature - TEMPERATURE_STEP
-            else
-                heater.temperature = TEMPERATURE_LOWER_LIMIT
-            binding.heater = heater
-            viewModel.updateDevice(heater.toDevice())
-        }
-        binding.heaterInfoViewer.buttonIncrHeater.setOnClickListener {
-            val heater = binding.heater!!
-            if (heater.temperature < TEMPERATURE_UPPER_LIMIT - TEMPERATURE_STEP)
-                heater.temperature = heater.temperature + TEMPERATURE_STEP
-            else
-                heater.temperature = TEMPERATURE_UPPER_LIMIT
-            binding.heater = heater
-            viewModel.updateDevice(heater.toDevice())
-        }
-
     }
 
-    private fun switchOnOff(mode: Mode) : Mode {
-        return if (mode == Mode.OFF) Mode.ON else Mode.OFF
+
+    /**********************************************************************************************
+     * Listeners
+     **********************************************************************************************/
+    private fun lightSeekbarListener() {
+        binding.lightInfoViewer.progressBarLight.setOnClickListener {
+            deviceSteeringViewModel.seekBarLightListener(binding.lightInfoViewer.progressBarLight.progress)
+        }
     }
+
+    private fun rstSeekbarListener() {
+        binding.rollerShutterInfoViewer.progressBarRs.setOnClickListener {
+            deviceSteeringViewModel.seekBarRSListener(binding.rollerShutterInfoViewer.progressBarRs.progress)
+        }
+    }
+
+    private fun heaterSeekbarListener() {
+        binding.heaterInfoViewer.progressBarHeater.setOnClickListener {
+            deviceSteeringViewModel.seekBarHeaterListener(binding.heaterInfoViewer.progressBarHeater.progress)
+        }
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -141,14 +139,6 @@ class DeviceSteeringFragment : Fragment() {
     }
     companion object {
         const val DEVICE_ARG = "device"
-        const val STEP = 10
-        const val PERCENTAGE_UPPER_LIMIT = 100
-        const val PERCENTAGE_LOWER_LIMIT = 0
-
-        const val TEMPERATURE_STEP = 0.5
-        const val TEMPERATURE_UPPER_LIMIT = 28.0
-        const val TEMPERATURE_LOWER_LIMIT = 7.0
-
     }
 
 }

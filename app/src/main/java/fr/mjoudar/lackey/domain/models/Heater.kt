@@ -18,7 +18,6 @@ data class Heater(
         get() = _id
         set(value) {
             _id = value
-//            notifyPropertyChanged(BR.id)
         }
 
     @get:Bindable
@@ -26,7 +25,6 @@ data class Heater(
         get() = _deviceName
         set(value) {
             _deviceName = value
-//            notifyPropertyChanged(BR.deviceName)
         }
 
     @get:Bindable
@@ -34,7 +32,6 @@ data class Heater(
         get() = _temperature
         set(value) {
             _temperature = value
-//            notifyPropertyChanged(BR.temperature)
         }
 
     @get:Bindable
@@ -42,7 +39,6 @@ data class Heater(
         get() = _mode
         set(value) {
             _mode = value
-//            notifyPropertyChanged(BR.mode)
         }
 
     fun toDevice() = Device(id, ProductType.Heater, deviceName, 0, mode.name, 0, temperature)

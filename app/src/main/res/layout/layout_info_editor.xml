@@ -2,7 +2,14 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+        <variable
+            name="user"
+            type="fr.mjoudar.lackey.domain.models.User" />
+    </data>
+
     <ScrollView
+        android:id="@+id/info_edit"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -56,7 +63,8 @@
                             android:layout_height="wrap_content"
                             android:drawableStart="@drawable/ic_person"
                             android:drawablePadding="10dp"
-                            android:inputType="text" />
+                            android:text="@={user.firstName}"
+                            android:inputType="textPersonName" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
@@ -75,7 +83,8 @@
                             android:layout_height="wrap_content"
                             android:drawableStart="@drawable/ic_person"
                             android:drawablePadding="10dp"
-                            android:inputType="text" />
+                            android:text="@={user.lastName}"
+                            android:inputType="textPersonName" />
                     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -112,10 +121,12 @@
                         android:layout_margin="10dp">
 
                         <AutoCompleteTextView
+                            android:id="@+id/birth_date_autocomplete"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="@string/birth_date"
                             android:inputType="date"
+                            birthDate="@{user}"
                             android:labelFor="@id/birth_date" />
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -162,6 +173,7 @@
                             android:layout_height="wrap_content"
                             android:hint="@string/street_name"
                             android:inputType="textPostalAddress"
+                            android:text="@={user.address.street}"
                             android:singleLine="true"
                             android:scrollbars="horizontal" />
 
@@ -185,10 +197,11 @@
                             android:id="@+id/add_edit_offer_state"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="St. N°"
+                            android:hint="@string/street_number"
                             android:inputType="text"
-                            android:singleLine="true"
-                            android:scrollbars="horizontal" />
+                            android:text="@={user.address.streetCode}"
+                            android:scrollbars="horizontal"
+                            android:singleLine="true" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
@@ -207,10 +220,12 @@
                         app:layout_constraintTop_toBottomOf="@id/street_name">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/zip"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="Zipcode"
-                            android:inputType="text"
+                            android:hint="@string/zipcode"
+                            android:inputType="number"
+                            zipCode="@{user.address.zipCode}"
                             android:scrollbars="horizontal"
                             android:singleLine="true" />
 
@@ -234,6 +249,7 @@
                             android:layout_height="wrap_content"
                             android:hint="@string/city"
                             android:inputType="text"
+                            android:text="@={user.address.city}"
                             android:singleLine="true"
                             android:scrollbars="horizontal" />
 
@@ -260,6 +276,7 @@
                             android:layout_height="wrap_content"
                             android:hint="@string/country"
                             android:inputType="text"
+                            android:text="@={user.address.country}"
                             android:singleLine="true"
                             android:scrollbars="horizontal" />
 
@@ -269,7 +286,7 @@
             </androidx.cardview.widget.CardView>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/button_edit"
+                android:id="@+id/button_save"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="@id/card_view_address"

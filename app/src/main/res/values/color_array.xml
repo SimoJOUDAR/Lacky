@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="custom_color">
+        <item>#CED4E0</item>
+        <item>#6461d2</item>
+    </array>
+</resources>

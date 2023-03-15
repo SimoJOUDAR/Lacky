@@ -4,8 +4,10 @@ import android.util.Log
 import fr.mjoudar.lackey.domain.models.Device
 import fr.mjoudar.lackey.domain.models.User
 import fr.mjoudar.lackey.network.RetrofitInstance
+import javax.inject.Inject
 
-class DataRepository {
+
+class DataRepository @Inject constructor () {
 
     private val TAG = "GetDataRepository"
 

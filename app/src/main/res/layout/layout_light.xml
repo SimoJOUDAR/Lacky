@@ -7,6 +7,9 @@
         <variable
             name="light"
             type="fr.mjoudar.lackey.domain.models.Light" />
+        <variable
+            name="viewModel"
+            type="fr.mjoudar.lackey.presentation.deviceSteering.DeviceSteeringViewModel" />
     </data>
 
     <FrameLayout
@@ -16,94 +19,115 @@
         android:background="@color/warm_blue"
         android:orientation="vertical">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/shape_maya_blue_gradient_radius_corner"
-            android:padding="20dp"
-            android:layout_margin="48dp">
+            android:layout_margin="48dp"
+            app:cardCornerRadius="18dp">
 
             <ImageView
-                android:id="@+id/device_img_light"
-                android:layout_width="180dp"
-                android:layout_height="180dp"
-                android:contentDescription="@string/light"
-                android:src="@drawable/light"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/device_name_light"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/device_img_light"
-                android:gravity="center"
-                tools:text="Device"
-                android:text="@{light.deviceName}"
-                style="@style/device_steering_name" />
+                android:layout_height="match_parent"
+                android:src="@drawable/bg_faint"
+                android:scaleType="centerCrop" />
 
-            <TextView
-                android:id="@+id/mode_light"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/device_name_light"
-                app:layout_constraintBottom_toTopOf="@id/progress_bar_light"
-                tools:text="ON"
-                android:text="@{light.mode.name()}"
-                android:layout_margin="12dp"
-                android:padding="10dp"
-                android:background="@drawable/border_radius_white"
-                style="@style/device_steering_specs" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="20dp">
 
-            <ProgressBar
-                android:id="@+id/progress_bar_light"
-                style="@style/CircularProgressBar"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/mode_light"
-                app:layout_constraintBottom_toTopOf="@id/button_decr_light"
-                tools:progress="60" />
+                <ImageView
+                    android:id="@+id/device_img_light"
+                    android:layout_width="180dp"
+                    android:layout_height="180dp"
+                    android:contentDescription="@string/light"
+                    android:src="@drawable/light"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/specs_light"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="@+id/progress_bar_light"
-                app:layout_constraintEnd_toEndOf="@+id/progress_bar_light"
-                app:layout_constraintStart_toStartOf="@+id/progress_bar_light"
-                app:layout_constraintTop_toTopOf="@+id/progress_bar_light"
-                tools:text="60%"
-                intensity="@{light.intensity}"
-                style="@style/device_steering_specs" />
+                <TextView
+                    android:id="@+id/device_name_light"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/device_img_light"
+                    android:gravity="center"
+                    tools:text="Device"
+                    android:text="@{light.deviceName}"
+                    style="@style/device_steering_name" />
 
-            <Button
-                android:id="@+id/button_decr_light"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="- 10%"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/button_incr_light"
-                app:layout_constraintTop_toBottomOf="@+id/progress_bar_light"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                <TextView
+                    android:id="@+id/mode_light"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/specs_light"
+                    app:layout_constraintTop_toBottomOf="@id/device_name_light"
+                    app:layout_constraintBottom_toTopOf="@id/progress_bar_light"
+                    tools:text="ON"
+                    android:text="@{light.mode.name}"
+                    android:onClick="@{() -> viewModel.modeLightListener()}"
+                    android:layout_margin="12dp"
+                    android:padding="10dp"
+                    android:background="@drawable/border_radius_white"
+                    style="@style/device_steering_specs" />
 
-            <Button
-                android:id="@+id/button_incr_light"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="+ 10%"
-                app:layout_constraintStart_toEndOf="@id/button_decr_light"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/progress_bar_light"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                <com.rtugeek.android.colorseekbar.ColorSeekBar
+                    android:id="@+id/progress_bar_light"
+                    android:layout_width="wrap_content"
+                    android:layout_height="260dp"
+                    app:colorSeekBarMaxProgress="100"
+                    android:rotation="180"
+                    android:progress="@{light.intensity}"
+                    app:colorSeekBarColorSeeds="@array/custom_color"
+                    app:colorSeekBarVertical="true"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/mode_light"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintVertical_bias="0.626" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <TextView
+                    android:id="@+id/specs_light"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toEndOf="@id/mode_light"
+                    app:layout_constraintTop_toBottomOf="@id/device_name_light"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/progress_bar_light"
+                    tools:text="60%"
+                    intensity="@{light.intensity}"
+                    style="@style/device_steering_level" />
+
+                <Button
+                    android:id="@+id/button_decr_light"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="- 10%"
+                    android:onClick="@{() -> viewModel.buttonDecrLightListener()}"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/mode_light"
+                    app:layout_constraintEnd_toStartOf="@id/progress_bar_light"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+                <Button
+                    android:id="@+id/button_incr_light"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="+ 10%"
+                    android:onClick="@{() -> viewModel.buttonIncrLightListener()}"
+                    app:layout_constraintStart_toEndOf="@id/progress_bar_light"
+                    app:layout_constraintTop_toBottomOf="@id/mode_light"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+
 
     </FrameLayout>
 

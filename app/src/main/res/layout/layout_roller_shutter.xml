@@ -7,6 +7,9 @@
         <variable
             name="rollerShutter"
             type="fr.mjoudar.lackey.domain.models.RollerShutter" />
+        <variable
+            name="viewModel"
+            type="fr.mjoudar.lackey.presentation.deviceSteering.DeviceSteeringViewModel" />
     </data>
 
     <FrameLayout
@@ -16,80 +19,108 @@
         android:background="@color/warm_blue"
         android:orientation="vertical">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <FrameLayout
+            android:id="@+id/view_light"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/shape_maya_blue_gradient_radius_corner"
-            android:padding="20dp"
-            android:layout_margin="48dp">
+            android:background="@color/warm_blue"
+            android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/device_img_rs"
-                android:layout_width="180dp"
-                android:layout_height="180dp"
-                android:contentDescription="@string/roller_shutter"
-                android:src="@drawable/roller_shutters"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/device_name_rs"
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/device_img_rs"
-                android:gravity="center"
-                tools:text="Device"
-                android:text="@{rollerShutter.deviceName}"
-                style="@style/device_steering_name" />
+                android:layout_height="match_parent"
+                android:layout_margin="48dp"
+                app:cardCornerRadius="18dp">
 
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/bg_faint"
+                    android:scaleType="centerCrop" />
 
-            <ProgressBar
-                android:id="@+id/progress_bar_rs"
-                style="@style/CircularProgressBar"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/device_name_rs"
-                app:layout_constraintBottom_toTopOf="@id/button_decr_rs"
-                tools:progress="60" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="20dp">
 
-            <TextView
-                android:id="@+id/specs_rs"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="@+id/progress_bar_rs"
-                app:layout_constraintEnd_toEndOf="@+id/progress_bar_rs"
-                app:layout_constraintStart_toStartOf="@+id/progress_bar_rs"
-                app:layout_constraintTop_toTopOf="@+id/progress_bar_rs"
-                tools:text="60%"
-                intensity="@{rollerShutter.position}"
-                style="@style/device_steering_specs" />
+                    <ImageView
+                        android:id="@+id/device_img_rs"
+                        android:layout_width="180dp"
+                        android:layout_height="180dp"
+                        android:contentDescription="@string/roller_shutter"
+                        android:src="@drawable/roller_shutters"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-            <Button
-                android:id="@+id/button_decr_rs"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="- 10%"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/button_incr_rs"
-                app:layout_constraintTop_toBottomOf="@+id/progress_bar_rs"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                    <TextView
+                        android:id="@+id/device_name_rs"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/device_img_rs"
+                        android:gravity="center"
+                        tools:text="Device"
+                        android:text="@{rollerShutter.deviceName}"
+                        style="@style/device_steering_name" />
 
-            <Button
-                android:id="@+id/button_incr_rs"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="+ 10%"
-                app:layout_constraintStart_toEndOf="@id/button_decr_rs"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/progress_bar_rs"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                    <com.rtugeek.android.colorseekbar.ColorSeekBar
+                        android:id="@+id/progress_bar_rs"
+                        android:layout_width="wrap_content"
+                        android:layout_height="260dp"
+                        app:colorSeekBarMaxProgress="100"
+                        android:rotation="180"
+                        android:progress="@{rollerShutter.position}"
+                        app:colorSeekBarColorSeeds="@array/custom_color"
+                        app:colorSeekBarVertical="true"
+                        android:layout_marginTop="10dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/specs_rs"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintVertical_bias="0.626" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                    <TextView
+                        android:id="@+id/specs_rs"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/device_name_rs"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toTopOf="@id/progress_bar_rs"
+                        android:layout_marginTop="12dp"
+                        tools:text="60%"
+                        intensity="@{rollerShutter.position}"
+                        style="@style/device_steering_level" />
+
+                    <Button
+                        android:id="@+id/button_decr_rs"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="- 10%"
+                        android:onClick="@{() -> viewModel.buttonDecrRSListener()}"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/specs_rs"
+                        app:layout_constraintEnd_toStartOf="@id/progress_bar_rs"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
+
+                    <Button
+                        android:id="@+id/button_incr_rs"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="+ 10%"
+                        android:onClick="@{() -> viewModel.buttonIncrRStListener()}"
+                        app:layout_constraintStart_toEndOf="@id/progress_bar_rs"
+                        app:layout_constraintTop_toBottomOf="@id/specs_rs"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </FrameLayout>
 
     </FrameLayout>
 

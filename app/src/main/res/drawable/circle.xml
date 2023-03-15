@@ -17,7 +17,7 @@
                 android:thicknessRatio="16"
                 android:useLevel="true">
                 <gradient
-                    android:startColor="@color/gradient_end_color"
+                    android:startColor="@color/biloba_flower"
                     android:endColor="@color/gradient_start_color"
                     android:type="sweep" />
             </shape>

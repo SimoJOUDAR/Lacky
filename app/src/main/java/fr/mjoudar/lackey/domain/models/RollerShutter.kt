@@ -17,7 +17,6 @@ data class RollerShutter(
         get() = _id
         set(value) {
             _id = value
-//            notifyPropertyChanged(BR.id)
         }
 
     @get:Bindable
@@ -25,7 +24,6 @@ data class RollerShutter(
         get() = _deviceName
         set(value) {
             _deviceName = value
-//            notifyPropertyChanged(BR.deviceName)
         }
 
     @get:Bindable
@@ -33,7 +31,6 @@ data class RollerShutter(
         get() = _position
         set(value) {
             _position = value
-//            notifyPropertyChanged(BR.position)
         }
 
     fun toDevice() = Device(id, ProductType.RollerShutter, deviceName, 0, "OFF", position)

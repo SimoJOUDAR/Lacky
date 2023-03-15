@@ -4,14 +4,17 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import fr.mjoudar.lackey.domain.models.Device
+import dagger.hilt.android.lifecycle.HiltViewModel
+import fr.mjoudar.lackey.domain.models.*
+import fr.mjoudar.lackey.presentation.deviceSteering.DeviceSteeringFragment
 import fr.mjoudar.lackey.repositories.DataRepository
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-
-class HomePageViewModel: ViewModel() {
-
-    private val repository = DataRepository()
+@HiltViewModel
+class HomePageViewModel @Inject constructor(
+    private val repository : DataRepository
+): ViewModel() {
 
     private val _devicesLiveData = MutableLiveData(listOf<Device>())
     val devicesLiveData: LiveData<List<Device>> = _devicesLiveData

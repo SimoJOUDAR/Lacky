@@ -17,17 +17,18 @@
 
     </style>
 
-    <style name="Lato_font" parent="">
+    <style name="Title1" parent="">
         <item name="fontFamily">@font/lato</item>
-        <item name="android:textColor">@color/light_grey</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">30sp</item>
+        <item name="android:letterSpacing">0.2</item>
     </style>
 
-    <style name="Title1" parent="Lato_font">
-        <item name="android:textSize">26sp</item>
-    </style>
-
-    <style name="Title2" parent="Lato_font">
+    <style name="Title2" parent="">
+        <item name="fontFamily">@font/lato</item>
+        <item name="android:textColor">@color/white</item>
         <item name="android:textSize">16sp</item>
+
     </style>
 
     <style name="tab_text" parent="@android:style/TextAppearance.Widget.TabWidget">
@@ -45,29 +46,31 @@
         <item name="android:layout_marginTop">8dp</item>
     </style>
 
-    <style name="tile_specs" parent="Lato_font">
+    <style name="tile_specs" parent="">
+        <item name="fontFamily">@font/lato</item>
+        <item name="android:textColor">@color/light_grey</item>
         <item name="android:textSize">14sp</item>
     </style>
 
     <!-- DeviceSteering styles. -->
     <style name="device_steering_name" parent="">
         <item name="fontFamily">@font/lato</item>
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">@color/gradient_end_color</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">22sp</item>
         <item name="android:layout_marginTop">8dp</item>
     </style>
 
     <style name="device_steering_specs" parent="">
         <item name="fontFamily">@font/lato</item>
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">@color/warm_blue</item>
         <item name="android:textSize">18sp</item>
     </style>
 
-    <!-- CircularProgressBar styles. -->
-    <style name="CircularProgressBar">
-        <item name="android:indeterminateOnly">false</item>
-        <item name="android:progressDrawable">@drawable/circle</item>
+    <style name="device_steering_level" parent="">
+        <item name="fontFamily">@font/lato</item>
+        <item name="android:textColor">@color/warm_blue</item>
+        <item name="android:textSize">24sp</item>
     </style>
 
     <!-- MyAccount styles. -->
@@ -98,9 +101,10 @@
     </style>
 
     <style name="my_account_text_view" parent="">
-        <item name="fontFamily">@font/lato_black</item>
-        <item name="android:textColor">@color/light_grey_3</item>
-        <item name="android:textSize">20sp</item>
+        <item name="fontFamily">@font/lato</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/grey_1</item>
+        <item name="android:textSize">18sp</item>
         <item name="android:background">@null</item>
     </style>
 

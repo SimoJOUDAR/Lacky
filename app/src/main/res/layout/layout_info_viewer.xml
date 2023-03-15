@@ -3,7 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+        <variable
+            name="user"
+            type="fr.mjoudar.lackey.domain.models.User" />
+    </data>
+
     <ScrollView
+        android:id="@+id/info_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -44,11 +51,11 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawableStart="@drawable/ic_person"
                     android:drawablePadding="10dp"
-
+                    fullName="@{user}"
                     style="@style/my_account_text_to_display"
-                    tools:text="Michael Jackson"/>
+                    tools:text="Michael Jackson"
+                    app:drawableStartCompat="@drawable/ic_person" />
 
             </LinearLayout>
 
@@ -76,10 +83,11 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawableStart="@drawable/ic_birthdate"
                     android:drawablePadding="10dp"
                     style="@style/my_account_text_to_display"
-                    tools:text="08/29/1958"/>
+                    tools:text="08/29/1958"
+                    birthDate="@{user}"
+                    app:drawableStartCompat="@drawable/ic_birthdate" />
 
             </LinearLayout>
 
@@ -110,6 +118,7 @@
                     android:drawableStart="@drawable/ic_address"
                     android:drawablePadding="10dp"
                     style="@style/my_account_text_to_display"
+                    addressLine1="@{user}"
                     tools:text="21 Malibu Street"/>
 
                 <TextView
@@ -118,6 +127,7 @@
                     android:drawableStart="@drawable/ic_address_white"
                     android:drawablePadding="10dp"
                     style="@style/my_account_text_address"
+                    addressLine2="@{user}"
                     tools:text="93456 Los Angelos"/>
 
                 <TextView
@@ -126,6 +136,7 @@
                     android:drawableStart="@drawable/ic_address_white"
                     android:drawablePadding="10dp"
                     style="@style/my_account_text_address"
+                    addressLine3="@{user}"
                     tools:text="California, US"/>
 
             </LinearLayout>

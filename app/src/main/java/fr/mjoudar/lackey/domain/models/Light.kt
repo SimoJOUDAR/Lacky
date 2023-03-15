@@ -19,7 +19,6 @@ data class Light(
         get() = _id
         set(value) {
             _id = value
-//            notifyPropertyChanged(BR.id)
         }
 
     @get:Bindable
@@ -27,7 +26,6 @@ data class Light(
         get() = _deviceName
         set(value) {
             _deviceName = value
-//            notifyPropertyChanged(BR.deviceName)
         }
 
     @get:Bindable
@@ -35,7 +33,6 @@ data class Light(
         get() = _intensity
         set(value) {
             _intensity = value
-//            notifyPropertyChanged(BR.intensity)
         }
 
     @get:Bindable
@@ -43,7 +40,6 @@ data class Light(
         get() = _mode
         set(value) {
             _mode = value
-//            notifyPropertyChanged(BR.mode)
         }
 
     fun toDevice() = Device(id, ProductType.Light, deviceName, intensity, mode.name)

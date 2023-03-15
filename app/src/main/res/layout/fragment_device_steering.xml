@@ -14,6 +14,9 @@
         <variable
             name="heater"
             type="fr.mjoudar.lackey.domain.models.Heater" />
+        <variable
+            name="viewModel"
+            type="fr.mjoudar.lackey.presentation.deviceSteering.DeviceSteeringViewModel" />
     </data>
 
     <FrameLayout
@@ -28,7 +31,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             layout="@layout/layout_light"
-            app:light="@{light}"/>
+            app:light="@{light}"
+            app:viewModel="@{viewModel}"/>
 
         <include
             android:id="@+id/roller_shutter_info_viewer"
@@ -36,7 +40,8 @@
             android:layout_height="match_parent"
             android:visibility="gone"
             layout="@layout/layout_roller_shutter"
-            app:rollerShutter="@{rollerShutter}"/>
+            app:rollerShutter="@{rollerShutter}"
+            app:viewModel="@{viewModel}"/>
 
         <include
             android:id="@+id/heater_info_viewer"
@@ -44,7 +49,8 @@
             android:layout_height="match_parent"
             android:visibility="gone"
             layout="@layout/layout_heater"
-            app:heater="@{heater}"/>
+            app:heater="@{heater}"
+            app:viewModel="@{viewModel}"/>
 
     </FrameLayout>
 

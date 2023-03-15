@@ -6,8 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayoutMediator
+import fr.mjoudar.lackey.R
 import fr.mjoudar.lackey.databinding.FragmentHomePageBinding
 import fr.mjoudar.lackey.presentation.adapters.MainViewpagerAdapter
 import fr.mjoudar.lackey.presentation.gridView.GridViewFragment
@@ -16,7 +18,6 @@ class HomePageFragment : Fragment() {
 
     private var _binding: FragmentHomePageBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: HomePageViewModel by viewModels()
     private lateinit var adapter: MainViewpagerAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -27,6 +28,7 @@ class HomePageFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setViewpager()
+        setOnClickListener()
     }
 
     private fun setViewpager() {
@@ -51,6 +53,12 @@ class HomePageFragment : Fragment() {
                 }
             }
         }.attach()
+    }
+
+    private fun setOnClickListener() {
+        binding.profile.setOnClickListener {
+            it.findNavController().navigate(R.id.myAccountFragment)  //TODO: Or use NavigationAction ?
+        }
     }
 
     override fun onDestroyView() {
