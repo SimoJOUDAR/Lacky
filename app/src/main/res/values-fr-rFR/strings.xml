@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="title2">Votre maison vous obéit au doight</string>
-    <string name="device_image">Image du device</string>
+    <string name="all">Tous</string>
     <string name="light">Lumière</string>
     <string name="roller_shutter">Volet roulant</string>
+    <string name="shutter">Volet</string>
     <string name="heater">Chauffage</string>
+    <string name="title2">Votre maison vous obéit au doight</string>
+    <string name="device_image">Image du device</string>
     <string name="on" translatable="false">On</string>
     <string name="off" translatable="false">Off</string>
     <string name="my_account">Mon compte</string>

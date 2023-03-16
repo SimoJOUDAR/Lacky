@@ -5,7 +5,8 @@ import com.squareup.moshi.Json
 import fr.mjoudar.lackey.domain.models.*
 
 /***********************************************************************************************
- ** GetDataResponse
+ ** GetDataResponse class - to convert json data into exploitable objects
+ * (User object or List of Device object)
  **********************************************************************************************/
 data class GetDataResponse(@Json(name = "devices")
                            val devices: List<DevicesItem>?,
@@ -19,7 +20,7 @@ data class GetDataResponse(@Json(name = "devices")
 }
 
 /***********************************************************************************************
- ** User
+ ** User - to convert json data into User object
  **********************************************************************************************/
 data class User1(@Json(name = "firstName")
                 val firstName: String = "",
@@ -34,7 +35,7 @@ data class User1(@Json(name = "firstName")
 }
 
 /***********************************************************************************************
- ** Address
+ ** Address1 - to convert json data into Address object
  **********************************************************************************************/
 data class Address1(@Json(name = "country")
                    val country: String = "",
@@ -51,7 +52,7 @@ data class Address1(@Json(name = "country")
 }
 
 /***********************************************************************************************
- ** DevicesItem
+ ** DevicesItem - to convert json data into Device object
  **********************************************************************************************/
 data class DevicesItem(@Json(name = "intensity")
                        val intensity: Int = 0,

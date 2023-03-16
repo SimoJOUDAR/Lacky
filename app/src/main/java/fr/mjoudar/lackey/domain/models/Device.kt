@@ -5,6 +5,9 @@ import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import kotlinx.android.parcel.Parcelize
 
+/***************************************************************************************************
+ * Device class - to represent a generic device
+ ***************************************************************************************************/
 @Parcelize
 data class Device(
     var _id: Int = 0,

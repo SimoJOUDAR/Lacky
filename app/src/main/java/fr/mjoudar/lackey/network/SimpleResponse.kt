@@ -2,6 +2,9 @@ package fr.mjoudar.lackey.network
 
 import retrofit2.Response
 
+/***************************************************************************************************
+ * SimpleResponse class - to safely handle network responses and exceptions
+ ***************************************************************************************************/
 data class SimpleResponse<T>(
     val status: Status,
     val data: Response<T>?,

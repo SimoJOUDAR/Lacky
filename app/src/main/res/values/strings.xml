@@ -1,11 +1,12 @@
 <resources>
     <string name="app_name" translatable="false">Lackey</string>
-
+    <string name="all">All</string>
+    <string name="shutter">shutter</string>
+    <string name="roller_shutter">Roller shutter</string>
+    <string name="light">Light</string>
+    <string name="heater">Heater</string>
     <string name="title2">Monitor your home with a touch</string>
     <string name="device_image">Device image</string>
-    <string name="light">Light</string>
-    <string name="roller_shutter">Roller shutter</string>
-    <string name="heater">Heater</string>
     <string name="on" translatable="false">On</string>
     <string name="off" translatable="false">Off</string>
     <string name="my_account">My account</string>
@@ -23,6 +24,4 @@
     <string name="profile">profile</string>
     <string name="street_number">Street Number</string>
     <string name="zipcode">Zipcode</string>
-
-
 </resources>

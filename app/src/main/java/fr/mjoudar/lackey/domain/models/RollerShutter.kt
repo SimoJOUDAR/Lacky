@@ -5,6 +5,9 @@ import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import kotlinx.android.parcel.Parcelize
 
+/***************************************************************************************************
+ * RollerShutter class - to represent RollerShutter device
+ ***************************************************************************************************/
 @Parcelize
 data class RollerShutter(
     var _id: Int,

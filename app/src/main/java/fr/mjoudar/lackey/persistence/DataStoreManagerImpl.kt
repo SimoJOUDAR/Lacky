@@ -10,6 +10,10 @@ import fr.mjoudar.lackey.domain.models.Address
 import fr.mjoudar.lackey.domain.models.User
 import kotlinx.coroutines.flow.map
 
+/***************************************************************************************************
+ * DataStoreManagerImpl class - an implementation of DataStoreManager interface
+ ***************************************************************************************************/
+
 const val USER_DATASTORE = "USER_DATASTORE"
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = USER_DATASTORE)

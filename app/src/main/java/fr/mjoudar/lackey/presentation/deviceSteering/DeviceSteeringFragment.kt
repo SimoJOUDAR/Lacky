@@ -10,10 +10,12 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import fr.mjoudar.lackey.databinding.FragmentDeviceSteeringBinding
-import fr.mjoudar.lackey.domain.models.Device
-import fr.mjoudar.lackey.domain.models.ProductType
+import fr.mjoudar.lackey.domain.models.*
 import fr.mjoudar.lackey.presentation.homePage.HomePageViewModel
-import fr.mjoudar.lackey.presentation.myAccount.MyAccountFragmentDirections
+
+/***************************************************************************************************
+ * DeviceSteeringFragment - the Fragment responsible of displaying device steering features
+ ***************************************************************************************************/
 
 @AndroidEntryPoint
 class DeviceSteeringFragment : Fragment() {
@@ -35,56 +37,77 @@ class DeviceSteeringFragment : Fragment() {
         setUpButtonListener()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     /**********************************************************************************************
-     * Display and data loading
+     ** Display and data loading
      **********************************************************************************************/
+
+    // Adapt the display accordingly to the Device received in the Fragment's Bundle
     private fun loadData() {
-        arguments?.let {
+        arguments?.let { it1 ->
             binding.viewModel = deviceSteeringViewModel
-            val device = it.getParcelable<Device>(DEVICE_ARG)
-            when (device!!.productType) {
+            val device = it1.getParcelable<Device>(DEVICE_ARG)
+            device?.let { it2 ->
+                when (it2.productType) {
 
-                ProductType.Light-> {
-                    val data = device.toLight()
-                    binding.light = data
-                    deviceSteeringViewModel.setLight(data)
-                    setLightObservers()
-                    lightSeekbarListener()
-                    binding.lightInfoViewer.viewLight.visibility = View.VISIBLE
-                    binding.rollerShutterInfoViewer.viewRs.visibility = View.GONE
-                    binding.heaterInfoViewer.viewHeater.visibility = View.GONE
-                }
+                    ProductType.Light-> {
+                        displayLightSteering(it2.toLight())
+                    }
 
-                ProductType.RollerShutter-> {
-                    val data = device.toRollerShutter()
-                    binding.rollerShutter = data
-                    deviceSteeringViewModel.setRollerShutter(data)
-                    setRsObservers()
-                    rstSeekbarListener()
-                    binding.lightInfoViewer.viewLight.visibility = View.GONE
-                    binding.rollerShutterInfoViewer.viewRs.visibility = View.VISIBLE
-                    binding.heaterInfoViewer.viewHeater.visibility = View.GONE
-                }
+                    ProductType.RollerShutter-> {
+                        displayRollerShutterSteering(it2.toRollerShutter())
+                    }
 
-                else -> {
-                    val data = device.toHeater()
-                    binding.heater = data
-                    deviceSteeringViewModel.setHeater(data)
-                    setHeaterObservers()
-                    heaterSeekbarListener()
-                    binding.lightInfoViewer.viewLight.visibility = View.GONE
-                    binding.rollerShutterInfoViewer.viewRs.visibility = View.GONE
-                    binding.heaterInfoViewer.viewHeater.visibility = View.VISIBLE
+                    else -> {
+                        displayHeaterSteering(it2.toHeater())
+                    }
                 }
             }
         }
     }
 
+    // Adapt the display to fit Light Device features
+    private fun displayLightSteering(data: Light) {
+        binding.light = data
+        deviceSteeringViewModel.setLight(data)
+        setLightObservers()
+        lightSeekbarListener()
+        binding.lightInfoViewer.viewLight.visibility = View.VISIBLE
+        binding.rollerShutterInfoViewer.viewRs.visibility = View.GONE
+        binding.heaterInfoViewer.viewHeater.visibility = View.GONE
+    }
+
+    // Adapt the display to fit ShutterSteering Device features
+    private fun displayRollerShutterSteering(data: RollerShutter) {
+        binding.rollerShutter = data
+        deviceSteeringViewModel.setRollerShutter(data)
+        setRsObservers()
+        rstSeekbarListener()
+        binding.lightInfoViewer.viewLight.visibility = View.GONE
+        binding.rollerShutterInfoViewer.viewRs.visibility = View.VISIBLE
+        binding.heaterInfoViewer.viewHeater.visibility = View.GONE
+    }
+
+    // Adapt the display to fit Heater Device features
+    private fun displayHeaterSteering(data: Heater) {
+        binding.heater = data
+        deviceSteeringViewModel.setHeater(data)
+        setHeaterObservers()
+        heaterSeekbarListener()
+        binding.lightInfoViewer.viewLight.visibility = View.GONE
+        binding.rollerShutterInfoViewer.viewRs.visibility = View.GONE
+        binding.heaterInfoViewer.viewHeater.visibility = View.VISIBLE
+    }
+
     /**********************************************************************************************
-     * Observers
+     ** Observers
      **********************************************************************************************/
 
-    // Observes changes in DeviceSteeringViewModel's lightLivedata
+    // Observe changes in DeviceSteeringViewModel's lightLivedata to update the view's data
     private fun setLightObservers() {
         deviceSteeringViewModel.lightLivedata.observe(viewLifecycleOwner) {
             it?.let {
@@ -94,7 +117,7 @@ class DeviceSteeringFragment : Fragment() {
         }
     }
 
-    // Observes changes in DeviceSteeringViewModel's rsLiveData
+    // Observe changes in DeviceSteeringViewModel's rsLiveData to update the view's data
     private fun setRsObservers() {
         deviceSteeringViewModel.rsLiveData.observe(viewLifecycleOwner) {
             it?.let {
@@ -104,7 +127,7 @@ class DeviceSteeringFragment : Fragment() {
         }
     }
 
-    // Observes changes in DeviceSteeringViewModel's heaterLiveData
+    // Observe changes in DeviceSteeringViewModel's heaterLiveData to update the view's data
     private fun setHeaterObservers() {
         deviceSteeringViewModel.heaterLiveData.observe(viewLifecycleOwner) {
             it?.let {
@@ -116,37 +139,37 @@ class DeviceSteeringFragment : Fragment() {
 
 
     /**********************************************************************************************
-     * Listeners
+     ** Listeners
      **********************************************************************************************/
+
+    // Listen to Light' seekbar changes and transmit it's progress value to the ViewModel's Light object
     private fun lightSeekbarListener() {
         binding.lightInfoViewer.progressBarLight.setOnClickListener {
             deviceSteeringViewModel.seekBarLightListener(binding.lightInfoViewer.progressBarLight.progress)
         }
     }
 
+    // Listen to RollerShutter' seekbar changes and transmit it's progress value to the ViewModel's RollerShutter object
     private fun rstSeekbarListener() {
         binding.rollerShutterInfoViewer.progressBarRs.setOnClickListener {
             deviceSteeringViewModel.seekBarRSListener(binding.rollerShutterInfoViewer.progressBarRs.progress)
         }
     }
 
+    // Listen to Heater' seekbar changes and transmit it's progress value to the ViewModel's Heater object
     private fun heaterSeekbarListener() {
         binding.heaterInfoViewer.progressBarHeater.setOnClickListener {
             deviceSteeringViewModel.seekBarHeaterListener(binding.heaterInfoViewer.progressBarHeater.progress)
         }
     }
 
+    // Listen to click event of the Up button
     private fun setUpButtonListener() {
         binding.up.setOnClickListener {
             findNavController().navigate(DeviceSteeringFragmentDirections.actionDeviceSteeringFragmentToHomePageFragment())
         }
     }
 
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
     companion object {
         const val DEVICE_ARG = "device"
     }

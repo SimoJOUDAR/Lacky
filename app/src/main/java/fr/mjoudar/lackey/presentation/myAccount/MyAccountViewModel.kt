@@ -12,6 +12,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/***********************************************************************************************
+ * MyAccountViewModel class - the ViewModel to handle retrieving and updating the user
+ ***********************************************************************************************/
 @HiltViewModel
 class MyAccountViewModel @Inject constructor(
     private  val dataStoreManager: DataStoreManager
@@ -22,6 +25,7 @@ class MyAccountViewModel @Inject constructor(
     private val _userLiveData : MutableLiveData<User> = MutableLiveData()
     val userLiveData: LiveData<User> = _userLiveData
 
+    // Update the User
     fun updateUser(user: User){
         viewModelScope.launch(Dispatchers.IO) {
             _userLiveData.postValue(user)
@@ -29,6 +33,7 @@ class MyAccountViewModel @Inject constructor(
         }
     }
 
+    // Retrieve the user from the local DataStorage, if is exists, otherwise fetch it from the network
     fun retrieveUser(){
         viewModelScope.launch(Dispatchers.IO) {
             dataStoreManager.retrieveUser().collect {
@@ -38,8 +43,10 @@ class MyAccountViewModel @Inject constructor(
         }
     }
 
+    // Fetch the user from the network
     private fun fetchUser(emptyUser: User) = viewModelScope.launch {
         val user = repository.getUser()
         user?.let { _userLiveData.postValue(it) } ?: _userLiveData.postValue(emptyUser)
+        // TODO: Persist the user now ?
     }
 }

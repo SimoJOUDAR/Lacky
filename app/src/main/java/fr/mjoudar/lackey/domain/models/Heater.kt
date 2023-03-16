@@ -5,6 +5,9 @@ import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import kotlinx.android.parcel.Parcelize
 
+/***************************************************************************************************
+ * Heater class - to represent Heater device
+ ***************************************************************************************************/
 @Parcelize
 data class Heater(
     var _id: Int,

@@ -1,6 +1,5 @@
 package fr.mjoudar.lackey.presentation.deviceSteering
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,11 +11,15 @@ import fr.mjoudar.lackey.domain.models.RollerShutter
 import fr.mjoudar.lackey.utils.TemperatureCalculator
 import javax.inject.Inject
 
+/***************************************************************************************************
+ * DeviceSteeringViewModel class - the ViewModel to handle steering operation and data
+ ***************************************************************************************************/
+
 @HiltViewModel
 class DeviceSteeringViewModel @Inject constructor (): ViewModel() {
 
     /**********************************************************************************************
-     * LiveData
+     ** LiveData
      **********************************************************************************************/
     private val _lightLivedata = MutableLiveData<Light?>()
     val lightLivedata: LiveData<Light?> = _lightLivedata
@@ -29,7 +32,7 @@ class DeviceSteeringViewModel @Inject constructor (): ViewModel() {
     val seekbarValue: LiveData<Int?> = _seekbarValue
 
     /**********************************************************************************************
-     * Setters
+     ** Setters
      **********************************************************************************************/
 
     fun setLight(light: Light) {
@@ -45,9 +48,10 @@ class DeviceSteeringViewModel @Inject constructor (): ViewModel() {
     }
 
     /**********************************************************************************************
-     * Light device OnClickListeners
+     ** Light device OnClickListeners
      **********************************************************************************************/
 
+    // Handle Light's ON/OFF operations
     fun modeLightListener() {
         val light = lightLivedata.value
         light?.let {
@@ -56,6 +60,7 @@ class DeviceSteeringViewModel @Inject constructor (): ViewModel() {
         }
     }
 
+    // Decrease Light intensity by 10%
     fun buttonDecrLightListener() {
         val light = lightLivedata.value
         light?.let {
@@ -65,6 +70,7 @@ class DeviceSteeringViewModel @Inject constructor (): ViewModel() {
         }
     }
 
+    // Increase Light intensity by 10%
     fun buttonIncrLightListener() {
         val light = lightLivedata.value
         light?.let {
@@ -74,6 +80,7 @@ class DeviceSteeringViewModel @Inject constructor (): ViewModel() {
         }
     }
 
+    // Set the Light's intensity to a specific value - the progress bar's value
     fun seekBarLightListener(data: Int) {
         val light = lightLivedata.value
         light?.let {
@@ -83,9 +90,10 @@ class DeviceSteeringViewModel @Inject constructor (): ViewModel() {
     }
 
     /**********************************************************************************************
-     * RollerShutter device OnClickListeners
+     ** RollerShutter device OnClickListeners
      **********************************************************************************************/
 
+    // Decrease RollerShutter position by 10%
     fun buttonDecrRSListener() {
         val rs = rsLiveData.value
         rs?.let {
@@ -95,6 +103,7 @@ class DeviceSteeringViewModel @Inject constructor (): ViewModel() {
         }
     }
 
+    // Increase RollerShutter position by 10%
     fun buttonIncrRStListener() {
         val rs = rsLiveData.value
         rs?.let {
@@ -104,6 +113,7 @@ class DeviceSteeringViewModel @Inject constructor (): ViewModel() {
         }
     }
 
+    // Set RollerShutter position to a specific value - the progress bar's value
     fun seekBarRSListener(data: Int) {
         val rs = rsLiveData.value
         rs?.let {
@@ -113,9 +123,10 @@ class DeviceSteeringViewModel @Inject constructor (): ViewModel() {
     }
 
     /**********************************************************************************************
-     * Heater device OnClickListeners
+     ** Heater device OnClickListeners
      **********************************************************************************************/
 
+    // Handle Heater's ON/OFF operations
     fun modeHeaterListener() {
         val heater = heaterLiveData.value
         heater?.let {
@@ -124,6 +135,7 @@ class DeviceSteeringViewModel @Inject constructor (): ViewModel() {
         }
     }
 
+    // Decrease Heater temperature by 0.5°
     fun buttonDecrHeaterListener() {
         val heater = heaterLiveData.value
         heater?.let {
@@ -135,6 +147,7 @@ class DeviceSteeringViewModel @Inject constructor (): ViewModel() {
         }
     }
 
+    // Increase Heater temperature by 0.5°
     fun buttonIncrHeatertListener() {
         val heater = heaterLiveData.value
         heater?.let {
@@ -146,6 +159,7 @@ class DeviceSteeringViewModel @Inject constructor (): ViewModel() {
         }
     }
 
+    // Set the Heater's temperature to a specific value - the progress bar's value
     fun seekBarHeaterListener(data: Int) {
         val heater = heaterLiveData.value
         heater?.let {
@@ -155,9 +169,10 @@ class DeviceSteeringViewModel @Inject constructor (): ViewModel() {
     }
 
     /**********************************************************************************************
-     * Utils
+     ** Utils
      **********************************************************************************************/
 
+    // Switch the ON/OFF value
     private fun switchOnOff(mode: Mode) : Mode {
         return if (mode == Mode.OFF) Mode.ON else Mode.OFF
     }
@@ -173,7 +188,4 @@ class DeviceSteeringViewModel @Inject constructor (): ViewModel() {
         const val TEMPERATURE_LOWER_LIMIT = 7.0
 
     }
-    /**********************************************************************************************
-     *
-     **********************************************************************************************/
 }

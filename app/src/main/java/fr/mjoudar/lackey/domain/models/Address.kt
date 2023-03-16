@@ -5,6 +5,9 @@ import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import kotlinx.android.parcel.Parcelize
 
+/***************************************************************************************************
+ * Address class
+ ***************************************************************************************************/
 @Parcelize
 data class Address(
     var _streetCode: String,

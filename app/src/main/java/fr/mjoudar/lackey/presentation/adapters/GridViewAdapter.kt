@@ -11,6 +11,9 @@ import fr.mjoudar.lackey.domain.models.Device
 import fr.mjoudar.lackey.domain.models.ProductType
 import fr.mjoudar.lackey.presentation.homePage.HomePageViewModel
 
+/***************************************************************************************************
+ * GridViewAdapter class - to define how our data are handled and displayed inside our RecyclerView
+ ***************************************************************************************************/
 class GridViewAdapter(
     private val onItemClickListener: View.OnClickListener,
     private val onDeleteClickListener : View.OnClickListener,
@@ -113,6 +116,7 @@ class GridViewAdapter(
         return devices.size
     }
 
+    // Set Adapter's data from outside the class
     fun setData(data: List<Device>) {
         devices = data
     }

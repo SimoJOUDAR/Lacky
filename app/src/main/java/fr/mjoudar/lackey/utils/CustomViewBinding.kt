@@ -8,6 +8,9 @@ import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
+/***********************************************************************************************
+ * CustomViewBinding class - to extend data binding features of our Layouts
+ ***********************************************************************************************/
 class CustomViewBinding {
 
     companion object {

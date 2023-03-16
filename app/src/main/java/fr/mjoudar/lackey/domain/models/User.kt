@@ -5,6 +5,9 @@ import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import kotlinx.android.parcel.Parcelize
 
+/***************************************************************************************************
+ * User class - to hold user information
+ ***************************************************************************************************/
 @Parcelize
 data class User(
     var _firstName: String,

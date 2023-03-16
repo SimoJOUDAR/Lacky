@@ -5,9 +5,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import fr.mjoudar.lackey.domain.models.Device
 import fr.mjoudar.lackey.presentation.gridView.GridViewFragment
 
+/***************************************************************************************************
+ * MainViewpagerAdapter class - to handle the Fragments, data and behaviour of our ViewPager
+ ***************************************************************************************************/
 class MainViewpagerAdapter(
     list: ArrayList<GridViewFragment>,
     fm: FragmentManager,
@@ -15,7 +17,6 @@ class MainViewpagerAdapter(
 ) : FragmentStateAdapter(fm, lifecycle)  {
 
     private val fragmentList = list
-    private var devices = listOf<Device>()
 
     override fun getItemCount(): Int {
         return fragmentList.size

@@ -5,7 +5,9 @@ import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import kotlinx.android.parcel.Parcelize
 
-
+/***************************************************************************************************
+ * Light class - to represent Light device
+ ***************************************************************************************************/
 @Parcelize
 data class Light(
     var _id: Int,

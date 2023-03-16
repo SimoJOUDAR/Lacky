@@ -1,26 +1,23 @@
 package fr.mjoudar.lackey.presentation.gridView
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import fr.mjoudar.lackey.R
 import fr.mjoudar.lackey.databinding.FragmentGridViewBinding
 import fr.mjoudar.lackey.domain.models.*
 import fr.mjoudar.lackey.presentation.adapters.GridViewAdapter
-import fr.mjoudar.lackey.presentation.deviceSteering.DeviceSteeringFragment
 import fr.mjoudar.lackey.presentation.homePage.HomePageFragment
 import fr.mjoudar.lackey.presentation.homePage.HomePageFragmentDirections
 import fr.mjoudar.lackey.presentation.homePage.HomePageViewModel
-import kotlin.math.log
 
+/**********************************************************************************************
+ * GridViewFragment class - the Fragment responsible of displaying devices on a grid
+ **********************************************************************************************/
 class GridViewFragment : Fragment() {
 
     private var _binding: FragmentGridViewBinding? = null
@@ -43,9 +40,16 @@ class GridViewFragment : Fragment() {
         observeDevices()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
     /***********************************************************************************************
      ** UI
      ***********************************************************************************************/
+
+    // Set the RecyclerView's Adapter and LayoutManager
     private fun setRecyclerView() {
         val onItemClickListener = View.OnClickListener { itemView ->
             val device = when (val item = itemView.tag) {
@@ -74,6 +78,7 @@ class GridViewFragment : Fragment() {
         binding.recyclerview.layoutManager = GridLayoutManager(requireContext(), columnNumberCalculator()) // For screen size adaptability
     }
 
+    // Return the number of columns that can fit in a Grid depending on the screen dimensions
     private fun columnNumberCalculator() : Int {
         val recyclerViewItemWidth = 176
         val displayMetrics = requireContext().resources.displayMetrics
@@ -84,10 +89,13 @@ class GridViewFragment : Fragment() {
     /***********************************************************************************************
      ** Data retrieval
      ***********************************************************************************************/
+
+    // Remotely order the ViewModel to start fetching Devices data
     private fun fetchData() {
         viewModel.fetchDevices()
     }
 
+    // Observe changes in HomePageViewModel's devicesLiveData to update the view's data
     private fun observeDevices() {
         if (devices.isEmpty()) binding.progressBar.visibility = View.VISIBLE
         viewModel.devicesLiveData.observe(viewLifecycleOwner) {
@@ -99,6 +107,8 @@ class GridViewFragment : Fragment() {
     /***********************************************************************************************
      ** Data filtering
      ***********************************************************************************************/
+
+    // Filter a Device List based on Device productType and options contained in the Bundle
     private fun filterBy(bundle: Bundle, data: List<Device>) {
         option = bundle.getInt(OPTION, 0)
         when (option) {
@@ -127,11 +137,6 @@ class GridViewFragment : Fragment() {
                 return
             }
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     companion object {
