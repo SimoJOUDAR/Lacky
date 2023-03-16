@@ -12,8 +12,15 @@ It connects to an API to fetch data about available devices but keeps no local p
 It also has a **profile** feature that shows account informations, with the possibility to edit them. These infos are persisted locally.
 
 ## Technicalities
-This project uses a MVVM architecture and implements the practices of Clean Architecture approach.
-It uses a RecyclerView to display devices in a grid, Jetpack's Navigation component to navigate throughout the different Fragments and to handle navigation animation and argument passing, custom data binding and view binding to easily communicate data across views, Dagger-Hilt for dependency injection, DataStore for persistence, Retrofit and Coroutines for API calls.
+This projet leverages “SOLID principles” by following Clean Architecture rules. It implements an MVVM architecture. 
+This approach helps minimize code complexity by insuring a clean, testable, reusable and maintainable code.
+
+This project is powered by Jetpack libraries. 
+It implements Android’s Navigation Component (NavGraph, NavHost, NavController) to navigate throughout the different Fragments and to handle navigation animation and safe argument passing.
+It uses a ViewPager to swipe between different display option.
+It has a RecyclerView to display devices in a grid.
+Dependency injection using Hilt insures the reusability, refactorability and testability of our code.
+View binding and custom data binding is also used to easily communicate data across views, DataStore for persistence and Retrofit and Coroutines for API calls.
 
 ## Testing
 This source code package incorporates **unit tests** and **instrumentation tests** as well as the **HTML results** of these tests.
