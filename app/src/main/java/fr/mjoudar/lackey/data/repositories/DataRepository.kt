@@ -1,9 +1,9 @@
-package fr.mjoudar.lackey.repositories
+package fr.mjoudar.lackey.data.repositories
 
 import android.util.Log
 import fr.mjoudar.lackey.domain.models.Device
 import fr.mjoudar.lackey.domain.models.User
-import fr.mjoudar.lackey.network.RetrofitInstance
+import fr.mjoudar.lackey.data.network.RetrofitInstance
 import javax.inject.Inject
 
 /***************************************************************************************************

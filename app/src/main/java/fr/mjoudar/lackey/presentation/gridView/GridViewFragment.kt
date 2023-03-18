@@ -13,7 +13,6 @@ import fr.mjoudar.lackey.domain.models.*
 import fr.mjoudar.lackey.presentation.adapters.GridViewAdapter
 import fr.mjoudar.lackey.presentation.homePage.HomePageFragment
 import fr.mjoudar.lackey.presentation.homePage.HomePageFragmentDirections
-import fr.mjoudar.lackey.presentation.homePage.HomePageViewModel
 
 /**********************************************************************************************
  * GridViewFragment class - the Fragment responsible of displaying devices on a grid
@@ -24,7 +23,7 @@ class GridViewFragment : Fragment() {
     private val binding get() = _binding!!
     private var option: Int = 0
     private lateinit var adapter: GridViewAdapter
-    private val viewModel: HomePageViewModel by activityViewModels()
+    private val viewModel: GridViewViewModel by activityViewModels()
     private var devices = listOf<Device>()
 
 

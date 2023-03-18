@@ -1,4 +1,4 @@
-package fr.mjoudar.lackey.presentation.homePage
+package fr.mjoudar.lackey.presentation.gridView
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import fr.mjoudar.lackey.domain.models.*
-import fr.mjoudar.lackey.repositories.DataRepository
+import fr.mjoudar.lackey.data.repositories.DataRepository
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -15,7 +15,7 @@ import javax.inject.Inject
  * the ViewModel to handle fetching the Devices List, as well as the update and delete operations
  ***********************************************************************************************/
 @HiltViewModel
-class HomePageViewModel @Inject constructor(
+class GridViewViewModel @Inject constructor(
     private val repository : DataRepository
 ): ViewModel() {
 

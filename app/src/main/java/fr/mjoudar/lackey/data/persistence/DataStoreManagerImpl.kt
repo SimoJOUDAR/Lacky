@@ -1,4 +1,4 @@
-package fr.mjoudar.lackey.persistence
+package fr.mjoudar.lackey.data.persistence
 
 import android.content.Context
 import androidx.datastore.core.DataStore

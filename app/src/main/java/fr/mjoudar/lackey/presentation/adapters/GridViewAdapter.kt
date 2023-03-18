@@ -9,7 +9,7 @@ import fr.mjoudar.lackey.databinding.LayoutGridItemLightBinding
 import fr.mjoudar.lackey.databinding.LayoutGridItemRollerShutterBinding
 import fr.mjoudar.lackey.domain.models.Device
 import fr.mjoudar.lackey.domain.models.ProductType
-import fr.mjoudar.lackey.presentation.homePage.HomePageViewModel
+import fr.mjoudar.lackey.presentation.gridView.GridViewViewModel
 
 /***************************************************************************************************
  * GridViewAdapter class - to define how our data are handled and displayed inside our RecyclerView
@@ -18,7 +18,7 @@ class GridViewAdapter(
     private val onItemClickListener: View.OnClickListener,
     private val onDeleteClickListener : View.OnClickListener,
     private val onContextClickListener: View.OnContextClickListener,
-    private val viewModel: HomePageViewModel
+    private val viewModel: GridViewViewModel
 ): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var devices = listOf<Device>()

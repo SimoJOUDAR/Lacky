@@ -6,8 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import fr.mjoudar.lackey.domain.models.User
-import fr.mjoudar.lackey.persistence.DataStoreManager
-import fr.mjoudar.lackey.repositories.DataRepository
+import fr.mjoudar.lackey.data.persistence.DataStoreManager
+import fr.mjoudar.lackey.data.repositories.DataRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject

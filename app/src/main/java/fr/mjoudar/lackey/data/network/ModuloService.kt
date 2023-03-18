@@ -1,4 +1,4 @@
-package fr.mjoudar.lackey.network
+package fr.mjoudar.lackey.data.network
 
 import fr.mjoudar.lackey.domain.dto.GetDataResponse
 import retrofit2.Response

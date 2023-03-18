@@ -1,4 +1,4 @@
-package fr.mjoudar.lackey.persistence
+package fr.mjoudar.lackey.data.persistence
 
 import fr.mjoudar.lackey.domain.models.User
 import kotlinx.coroutines.flow.Flow

@@ -1,4 +1,4 @@
-package fr.mjoudar.lackey.network
+package fr.mjoudar.lackey.data.network
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory

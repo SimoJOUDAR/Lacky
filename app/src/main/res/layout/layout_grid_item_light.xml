@@ -10,7 +10,7 @@
             type="fr.mjoudar.lackey.domain.models.Light" />
         <variable
             name="viewModel"
-            type="fr.mjoudar.lackey.presentation.homePage.HomePageViewModel" />
+            type="fr.mjoudar.lackey.presentation.gridView.GridViewViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

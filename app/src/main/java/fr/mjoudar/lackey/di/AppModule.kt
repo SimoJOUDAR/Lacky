@@ -6,8 +6,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import fr.mjoudar.lackey.persistence.DataStoreManager
-import fr.mjoudar.lackey.persistence.DataStoreManagerImpl
+import fr.mjoudar.lackey.data.persistence.DataStoreManager
+import fr.mjoudar.lackey.data.persistence.DataStoreManagerImpl
 import javax.inject.Singleton
 
 /***************************************************************************************************

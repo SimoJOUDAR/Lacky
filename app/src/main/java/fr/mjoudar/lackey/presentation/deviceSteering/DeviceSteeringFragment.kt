@@ -11,7 +11,7 @@ import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import fr.mjoudar.lackey.databinding.FragmentDeviceSteeringBinding
 import fr.mjoudar.lackey.domain.models.*
-import fr.mjoudar.lackey.presentation.homePage.HomePageViewModel
+import fr.mjoudar.lackey.presentation.gridView.GridViewViewModel
 
 /***************************************************************************************************
  * DeviceSteeringFragment - the Fragment responsible of displaying device steering features
@@ -22,7 +22,7 @@ class DeviceSteeringFragment : Fragment() {
 
     private var _binding: FragmentDeviceSteeringBinding? = null
     private val binding get() = _binding!!
-    private val homepageViewModel: HomePageViewModel by activityViewModels()
+    private val mHomepageViewModel: GridViewViewModel by activityViewModels()
     private val deviceSteeringViewModel: DeviceSteeringViewModel by viewModels()
 
 
@@ -112,7 +112,7 @@ class DeviceSteeringFragment : Fragment() {
         deviceSteeringViewModel.lightLivedata.observe(viewLifecycleOwner) {
             it?.let {
                 binding.light = it
-                homepageViewModel.updateDevice(it.toDevice())
+                mHomepageViewModel.updateDevice(it.toDevice())
             }
         }
     }
@@ -122,7 +122,7 @@ class DeviceSteeringFragment : Fragment() {
         deviceSteeringViewModel.rsLiveData.observe(viewLifecycleOwner) {
             it?.let {
                 binding.rollerShutter = it
-                homepageViewModel.updateDevice(it.toDevice())
+                mHomepageViewModel.updateDevice(it.toDevice())
             }
         }
     }
@@ -132,7 +132,7 @@ class DeviceSteeringFragment : Fragment() {
         deviceSteeringViewModel.heaterLiveData.observe(viewLifecycleOwner) {
             it?.let {
                 binding.heater = it
-                homepageViewModel.updateDevice(it.toDevice())
+                mHomepageViewModel.updateDevice(it.toDevice())
             }
         }
     }
