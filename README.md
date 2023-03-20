@@ -11,6 +11,8 @@ It connects to an API to fetch data about available devices but keeps no local p
 
 It also has a **profile** feature that shows account informations, with the possibility to edit them. These infos are persisted locally.
 
+This app is available in English and French.
+
 ## Technicalities
 This projet leverages “SOLID principles” by following Clean Architecture rules. It's fully written in Kotlin and uses the power of Coroutines StateFlow as state holders. All implemented through an MVVM architecture. 
 This approach helps minimize code complexity by insuring a clean, testable, reusable and maintainable code.
