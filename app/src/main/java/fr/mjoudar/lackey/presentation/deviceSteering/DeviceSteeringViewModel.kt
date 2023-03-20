@@ -1,14 +1,20 @@
 package fr.mjoudar.lackey.presentation.deviceSteering
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import fr.mjoudar.lackey.domain.models.Heater
 import fr.mjoudar.lackey.domain.models.Light
 import fr.mjoudar.lackey.domain.models.Mode
 import fr.mjoudar.lackey.domain.models.RollerShutter
 import fr.mjoudar.lackey.utils.TemperatureCalculator
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /***************************************************************************************************
@@ -19,32 +25,49 @@ import javax.inject.Inject
 class DeviceSteeringViewModel @Inject constructor (): ViewModel() {
 
     /**********************************************************************************************
-     ** LiveData
+     ** StateFlow
      **********************************************************************************************/
-    private val _lightLivedata = MutableLiveData<Light?>()
-    val lightLivedata: LiveData<Light?> = _lightLivedata
-    private val _rsLiveData = MutableLiveData<RollerShutter?>()
-    val rsLiveData: LiveData<RollerShutter?> = _rsLiveData
-    private val _heaterLiveData = MutableLiveData<Heater?>()
-    val heaterLiveData: LiveData<Heater?> = _heaterLiveData
+    private val _lightStateFlow = MutableStateFlow<Light?>(null)
+    val lightStateFlow = _lightStateFlow.asStateFlow().stateIn(
+        scope = viewModelScope,
+        initialValue = null,
+        started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5000)
+    )
 
-    private val _seekbarValue = MutableLiveData<Int?>()
-    val seekbarValue: LiveData<Int?> = _seekbarValue
+    private val _rsStateFlow = MutableStateFlow<RollerShutter?>(null)
+    val rsStateFlow = _rsStateFlow.asStateFlow().stateIn(
+        scope = viewModelScope,
+        initialValue = null,
+        started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5000)
+    )
+
+    private val _heaterStateFlow = MutableStateFlow<Heater?>(null)
+    val heaterStateFlow = _heaterStateFlow.asStateFlow().stateIn(
+        scope = viewModelScope,
+        initialValue = null,
+        started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5000)
+    )
 
     /**********************************************************************************************
      ** Setters
      **********************************************************************************************/
 
     fun setLight(light: Light) {
-        _lightLivedata.postValue(light)
+        viewModelScope.launch(Dispatchers.IO) {
+            _lightStateFlow.emit(light)
+        }
     }
 
     fun setRollerShutter(rs: RollerShutter) {
-        _rsLiveData.postValue(rs)
+        viewModelScope.launch(Dispatchers.IO) {
+            _rsStateFlow.emit(rs)
+        }
     }
 
     fun setHeater(heater: Heater) {
-        _heaterLiveData.postValue(heater)
+        viewModelScope.launch(Dispatchers.IO) {
+            _heaterStateFlow.emit(heater)
+        }
     }
 
     /**********************************************************************************************
@@ -53,39 +76,49 @@ class DeviceSteeringViewModel @Inject constructor (): ViewModel() {
 
     // Handle Light's ON/OFF operations
     fun modeLightListener() {
-        val light = lightLivedata.value
+        val light = lightStateFlow.value?.copy()
         light?.let {
             it.mode = switchOnOff(it.mode)
-            _lightLivedata.postValue(it)
+            viewModelScope.launch(Dispatchers.IO) {
+                _lightStateFlow.emit(it)
+                Log.e("Test2", "modeLightListener() = $it")
+            }
+
         }
     }
 
     // Decrease Light intensity by 10%
     fun buttonDecrLightListener() {
-        val light = lightLivedata.value
+        val light = lightStateFlow.value?.copy()
         light?.let {
             if (it.intensity > STEP) it.intensity = it.intensity - STEP
             else it.intensity = PERCENTAGE_LOWER_LIMIT
-            _lightLivedata.postValue(it)
+            viewModelScope.launch(Dispatchers.IO) {
+                _lightStateFlow.emit(it)
+            }
         }
     }
 
     // Increase Light intensity by 10%
     fun buttonIncrLightListener() {
-        val light = lightLivedata.value
+        val light = lightStateFlow.value?.copy()
         light?.let {
             if (it.intensity < PERCENTAGE_UPPER_LIMIT - STEP) it.intensity = it.intensity + STEP
             else it.intensity = PERCENTAGE_UPPER_LIMIT
-            _lightLivedata.postValue(it)
+            viewModelScope.launch(Dispatchers.IO) {
+                _lightStateFlow.emit(it)
+            }
         }
     }
 
     // Set the Light's intensity to a specific value - the progress bar's value
     fun seekBarLightListener(data: Int) {
-        val light = lightLivedata.value
+        val light = lightStateFlow.value?.copy()
         light?.let {
             it.intensity = data
-            _lightLivedata.postValue(it)
+            viewModelScope.launch(Dispatchers.IO) {
+                _lightStateFlow.emit(it)
+            }
         }
     }
 
@@ -95,30 +128,36 @@ class DeviceSteeringViewModel @Inject constructor (): ViewModel() {
 
     // Decrease RollerShutter position by 10%
     fun buttonDecrRSListener() {
-        val rs = rsLiveData.value
+        val rs = rsStateFlow.value?.copy()
         rs?.let {
             if (it.position > STEP) it.position = it.position - STEP
             else it.position = PERCENTAGE_LOWER_LIMIT
-            _rsLiveData.postValue(it)
+            viewModelScope.launch(Dispatchers.IO) {
+                _rsStateFlow.emit(it)
+            }
         }
     }
 
     // Increase RollerShutter position by 10%
     fun buttonIncrRStListener() {
-        val rs = rsLiveData.value
+        val rs = rsStateFlow.value?.copy()
         rs?.let {
             if (it.position < PERCENTAGE_UPPER_LIMIT - STEP) it.position = it.position + STEP
             else it.position = PERCENTAGE_UPPER_LIMIT
-            _rsLiveData.postValue(it)
+            viewModelScope.launch(Dispatchers.IO) {
+                _rsStateFlow.emit(it)
+            }
         }
     }
 
     // Set RollerShutter position to a specific value - the progress bar's value
     fun seekBarRSListener(data: Int) {
-        val rs = rsLiveData.value
+        val rs = rsStateFlow.value?.copy()
         rs?.let {
             it.position = data
-            _rsLiveData.postValue(it)
+            viewModelScope.launch(Dispatchers.IO) {
+                _rsStateFlow.emit(it)
+            }
         }
     }
 
@@ -128,43 +167,51 @@ class DeviceSteeringViewModel @Inject constructor (): ViewModel() {
 
     // Handle Heater's ON/OFF operations
     fun modeHeaterListener() {
-        val heater = heaterLiveData.value
+        val heater = heaterStateFlow.value?.copy()
         heater?.let {
             it.mode = switchOnOff(it.mode)
-            _heaterLiveData.postValue(it)
+            viewModelScope.launch(Dispatchers.IO) {
+                _heaterStateFlow.emit(it)
+            }
         }
     }
 
     // Decrease Heater temperature by 0.5°
     fun buttonDecrHeaterListener() {
-        val heater = heaterLiveData.value
+        val heater = heaterStateFlow.value?.copy()
         heater?.let {
             if (it.temperature > TEMPERATURE_LOWER_LIMIT + TEMPERATURE_STEP)
                 it.temperature = it.temperature - TEMPERATURE_STEP
             else
                 it.temperature = TEMPERATURE_LOWER_LIMIT
-            _heaterLiveData.postValue(it)
+            viewModelScope.launch(Dispatchers.IO) {
+                _heaterStateFlow.emit(it)
+            }
         }
     }
 
     // Increase Heater temperature by 0.5°
     fun buttonIncrHeatertListener() {
-        val heater = heaterLiveData.value
+        val heater = heaterStateFlow.value?.copy()
         heater?.let {
             if (it.temperature < TEMPERATURE_UPPER_LIMIT - TEMPERATURE_STEP)
                 it.temperature = it.temperature + TEMPERATURE_STEP
             else
                 it.temperature = TEMPERATURE_UPPER_LIMIT
-            _heaterLiveData.postValue(it)
+            viewModelScope.launch(Dispatchers.IO) {
+                _heaterStateFlow.emit(it)
+            }
         }
     }
 
     // Set the Heater's temperature to a specific value - the progress bar's value
     fun seekBarHeaterListener(data: Int) {
-        val heater = heaterLiveData.value
+        val heater = heaterStateFlow.value?.copy()
         heater?.let {
             it.temperature = TemperatureCalculator.fromPercentToTemperature(data)
-            _heaterLiveData.postValue(it)
+            viewModelScope.launch(Dispatchers.IO) {
+                _heaterStateFlow.emit(it)
+            }
         }
     }
 

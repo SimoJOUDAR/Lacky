@@ -1,17 +1,23 @@
 package fr.mjoudar.lackey.presentation.deviceSteering
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import fr.mjoudar.lackey.databinding.FragmentDeviceSteeringBinding
 import fr.mjoudar.lackey.domain.models.*
 import fr.mjoudar.lackey.presentation.gridView.GridViewViewModel
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 /***************************************************************************************************
  * DeviceSteeringFragment - the Fragment responsible of displaying device steering features
@@ -107,32 +113,45 @@ class DeviceSteeringFragment : Fragment() {
      ** Observers
      **********************************************************************************************/
 
-    // Observe changes in DeviceSteeringViewModel's lightLivedata to update the view's data
+    // Observe changes in DeviceSteeringViewModel's lightStateFlow to update the view's data
     private fun setLightObservers() {
-        deviceSteeringViewModel.lightLivedata.observe(viewLifecycleOwner) {
-            it?.let {
-                binding.light = it
-                mHomepageViewModel.updateDevice(it.toDevice())
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                deviceSteeringViewModel.lightStateFlow.collectLatest {
+                    Log.e("Test2", "setLightObservers() = $it")
+                    it?.let {
+                        binding.light = it
+                        mHomepageViewModel.updateDevice(it.toDevice())
+                    }
+                }
             }
         }
     }
 
-    // Observe changes in DeviceSteeringViewModel's rsLiveData to update the view's data
+    // Observe changes in DeviceSteeringViewModel's rsStateFlow to update the view's data
     private fun setRsObservers() {
-        deviceSteeringViewModel.rsLiveData.observe(viewLifecycleOwner) {
-            it?.let {
-                binding.rollerShutter = it
-                mHomepageViewModel.updateDevice(it.toDevice())
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                deviceSteeringViewModel.rsStateFlow.collectLatest {
+                    it?.let {
+                        binding.rollerShutter = it.copy()
+                        mHomepageViewModel.updateDevice(it.toDevice())
+                    }
+                }
             }
         }
     }
 
-    // Observe changes in DeviceSteeringViewModel's heaterLiveData to update the view's data
+    // Observe changes in DeviceSteeringViewModel's heaterStateFlow to update the view's data
     private fun setHeaterObservers() {
-        deviceSteeringViewModel.heaterLiveData.observe(viewLifecycleOwner) {
-            it?.let {
-                binding.heater = it
-                mHomepageViewModel.updateDevice(it.toDevice())
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                deviceSteeringViewModel.heaterStateFlow.collectLatest {
+                    it?.let {
+                        binding.heater = it.copy()
+                        mHomepageViewModel.updateDevice(it.toDevice())
+                    }
+                }
             }
         }
     }

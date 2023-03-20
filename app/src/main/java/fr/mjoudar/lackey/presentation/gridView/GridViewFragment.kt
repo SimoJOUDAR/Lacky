@@ -6,6 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import fr.mjoudar.lackey.databinding.FragmentGridViewBinding
@@ -13,6 +16,8 @@ import fr.mjoudar.lackey.domain.models.*
 import fr.mjoudar.lackey.presentation.adapters.GridViewAdapter
 import fr.mjoudar.lackey.presentation.homePage.HomePageFragment
 import fr.mjoudar.lackey.presentation.homePage.HomePageFragmentDirections
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 /**********************************************************************************************
  * GridViewFragment class - the Fragment responsible of displaying devices on a grid
@@ -35,7 +40,7 @@ class GridViewFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setRecyclerView()
-        fetchData()
+//        fetchData()
         observeDevices()
     }
 
@@ -89,17 +94,19 @@ class GridViewFragment : Fragment() {
      ** Data retrieval
      ***********************************************************************************************/
 
-    // Remotely order the ViewModel to start fetching Devices data
-    private fun fetchData() {
-        viewModel.fetchDevices()
-    }
-
-    // Observe changes in HomePageViewModel's devicesLiveData to update the view's data
+    // Observe changes in HomePageViewModel's devicesStateFlow to update the view's data
     private fun observeDevices() {
         if (devices.isEmpty()) binding.progressBar.visibility = View.VISIBLE
-        viewModel.devicesLiveData.observe(viewLifecycleOwner) {
-            arguments?.let { arg -> filterBy(arg, it)}
-            if (devices.isNotEmpty()) binding.progressBar.visibility = View.GONE
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.devicesStateFlow.collectLatest {
+                    it?.let { devices ->
+                        arguments?.let { arg -> filterBy(arg, devices)}
+                        if (devices.isNotEmpty()) binding.progressBar.visibility = View.GONE
+                    }
+                }
+            }
         }
     }
 

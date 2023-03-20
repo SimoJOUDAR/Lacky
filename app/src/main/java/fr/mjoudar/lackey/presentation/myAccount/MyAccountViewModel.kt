@@ -1,14 +1,13 @@
 package fr.mjoudar.lackey.presentation.myAccount
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import fr.mjoudar.lackey.domain.models.User
-import fr.mjoudar.lackey.data.persistence.DataStoreManager
-import fr.mjoudar.lackey.data.repositories.DataRepository
+import fr.mjoudar.lackey.data.repositories.UserRepository
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -17,36 +16,34 @@ import javax.inject.Inject
  ***********************************************************************************************/
 @HiltViewModel
 class MyAccountViewModel @Inject constructor(
-    private  val dataStoreManager: DataStoreManager
+    private val repository : UserRepository
     ): ViewModel() {
 
-    private val repository = DataRepository()
+    private val _userStateFlow : MutableStateFlow<User?> = MutableStateFlow(null)
+    val userStateFlow = _userStateFlow.asStateFlow().stateIn(
+        scope = viewModelScope,
+        initialValue = null,
+        started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5000)
+    )
 
-    private val _userLiveData : MutableLiveData<User> = MutableLiveData()
-    val userLiveData: LiveData<User> = _userLiveData
+    init {
+        retrieveUser()
+    }
 
     // Update the User
     fun updateUser(user: User){
         viewModelScope.launch(Dispatchers.IO) {
-            _userLiveData.postValue(user)
-            dataStoreManager.updateUser(user)
+            repository.updateUser(user)
         }
     }
 
     // Retrieve the user from the local DataStorage, if is exists, otherwise fetch it from the network
-    fun retrieveUser(){
+    private fun retrieveUser(){
         viewModelScope.launch(Dispatchers.IO) {
-            dataStoreManager.retrieveUser().collect {
-                if (it.firstName.isEmpty() && it.lastName.isEmpty()) fetchUser(it)
-                else _userLiveData.postValue(it)
+            repository.retrieveLocalUser().collectLatest {
+                if (it.firstName.isEmpty() && it.lastName.isEmpty()) _userStateFlow.value = repository.retrieveUserFromApi()
+                else _userStateFlow.emit(it)
             }
         }
-    }
-
-    // Fetch the user from the network
-    private fun fetchUser(emptyUser: User) = viewModelScope.launch {
-        val user = repository.getUser()
-        user?.let { _userLiveData.postValue(it) } ?: _userLiveData.postValue(emptyUser)
-        // TODO: Persist the user now ?
     }
 }

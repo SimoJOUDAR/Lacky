@@ -12,6 +12,6 @@ interface DataStoreManager {
     suspend fun updateUser(user: User)
 
     // Retrieve a User object from the local DataStore
-    suspend fun retrieveUser(): Flow<User>
+    fun retrieveUser(): Flow<User>
 
 }

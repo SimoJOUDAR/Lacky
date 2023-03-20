@@ -9,9 +9,9 @@ import javax.inject.Inject
 /***************************************************************************************************
  * DataRepository Class - a SSOT (Single Source of Truth) pattern to centralize the data access
  ***************************************************************************************************/
-class DataRepository @Inject constructor () {
+class DevicesRepository @Inject constructor () {
 
-    private val TAG = "GetDataRepository"
+    private val TAG = "DevicesRepository"
 
     // Retrieve a List of Device objects from our Api
     suspend fun getDevices() : List<Device>? {
@@ -23,17 +23,5 @@ class DataRepository @Inject constructor () {
             return null
         }
         return response.body.toDevices()
-    }
-
-    // Retrieve a User object from our Api
-    suspend fun getUser() : User? {
-
-        val response = RetrofitInstance.apiClient.getData()
-
-        if (response.failed || !response.isSuccessful) {
-            Log.e(TAG, "Request getData() failed")
-            return null
-        }
-        return response.body.toUser()
     }
 }

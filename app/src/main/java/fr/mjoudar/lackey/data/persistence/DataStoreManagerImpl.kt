@@ -1,6 +1,7 @@
 package fr.mjoudar.lackey.data.persistence
 
 import android.content.Context
+import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
@@ -43,11 +44,11 @@ class DataStoreManagerImpl(private val context: Context) : DataStoreManager {
             it[ZIPCODE] = user.address.zipCode.toString()
             it[COUNTRY] = user.address.country
             it[BIRTH_DATE] = user.birthDate.toString()
-
+            Log.e("Test1", "updateUser()")
         }
     }
 
-    override suspend fun retrieveUser() = context.dataStore.data.map {
+    override fun retrieveUser() = context.dataStore.data.map {
         User(
             it[FIRST_NAME]?:"",
             it[LAST_NAME]?:"",
