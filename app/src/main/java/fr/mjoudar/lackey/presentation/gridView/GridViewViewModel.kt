@@ -22,39 +22,53 @@ class GridViewViewModel @Inject constructor(
     private val repository : DevicesRepository
 ): ViewModel() {
 
-    private val _devicesStateFlow = MutableStateFlow(listOf<Device>())
-    val devicesStateFlow = _devicesStateFlow.asStateFlow().stateIn(
+    private val _devicesUiState = MutableStateFlow<DeviceUiState>(DeviceUiState.Loading)
+    val devicesUiState = _devicesUiState.asStateFlow().stateIn(
         scope = viewModelScope,
-        initialValue = null,
+        initialValue = DeviceUiState.Loading,
         started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5000)
     )
 
     init {
-        fetchDevices()
+        getDevicesState()
     }
 
-    // Fetch the Devices List
-    private fun fetchDevices() = viewModelScope.launch(Dispatchers.IO) {
-        if (_devicesStateFlow.value.isEmpty()) {
-            val devices = repository.getDevices()
-            devices?.let { _devicesStateFlow.emit(it) }
+    // Update the deviceUiState based on the received Response
+    private fun getDevicesState() = viewModelScope.launch(Dispatchers.IO) {
+        val defaultException = Exception("An unidentified error occurred. We couldn't load the data. Please, check your internet connection.")
+        val response = repository.getDevicesState()
+        if (response.isSuccessful && response.body.toDevices() != null) {
+            _devicesUiState.emit(DeviceUiState.Success(response.body.toDevices()!!))
+        } else {
+            val e = response.exception ?: defaultException
+            _devicesUiState.emit(DeviceUiState.Error(e))
         }
     }
 
     // Update a Device inside the List
     fun updateDevice(device: Device) {
-        val newList = _devicesStateFlow.value.toMutableList()
-        for (i in 0 until newList.size) if (newList[i].id == device.id) newList[i] = device
-        viewModelScope.launch(Dispatchers.IO) {
-            _devicesStateFlow.emit(newList)
+        if (devicesUiState.value is DeviceUiState.Success) {
+            val newList = (devicesUiState.value as DeviceUiState.Success).devices.toMutableList()
+            for (i in 0 until newList.size) if (newList[i].id == device.id) newList[i] = device
+            viewModelScope.launch(Dispatchers.IO) {
+                _devicesUiState.emit(DeviceUiState.Success(newList))
+            }
         }
     }
 
     // Delete a Device from the List
     fun deleteDevice(id: Int) {
-        val newList = _devicesStateFlow.value.filterNot { it.id == id }
-        viewModelScope.launch(Dispatchers.IO) {
-            _devicesStateFlow.emit(newList)
+        if (devicesUiState.value is DeviceUiState.Success) {
+            val newList = (devicesUiState.value as DeviceUiState.Success).devices.filterNot { it.id == id }
+            viewModelScope.launch(Dispatchers.IO) {
+                _devicesUiState.emit(DeviceUiState.Success(newList))
+            }
         }
     }
+}
+
+sealed class DeviceUiState {
+    object Loading: DeviceUiState()
+    data class Success(val devices : List<Device>): DeviceUiState()
+    data class Error(val error: Exception): DeviceUiState()
 }

@@ -40,8 +40,7 @@ class GridViewFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setRecyclerView()
-//        fetchData()
-        observeDevices()
+        collectDevices()
     }
 
     override fun onDestroyView() {
@@ -82,28 +81,39 @@ class GridViewFragment : Fragment() {
         binding.recyclerview.layoutManager = GridLayoutManager(requireContext(), columnNumberCalculator()) // For screen size adaptability
     }
 
-    // Return the number of columns that can fit in a Grid depending on the screen dimensions
-    private fun columnNumberCalculator() : Int {
-        val recyclerViewItemWidth = 176
-        val displayMetrics = requireContext().resources.displayMetrics
-        val dpWidth = displayMetrics.widthPixels / displayMetrics.density
-        return (dpWidth / recyclerViewItemWidth).toInt()
+    private fun displayIsLoading() {
+        binding.progressBar.visibility = View.VISIBLE
+        binding.recyclerview.visibility = View.INVISIBLE
+        binding.errorLayout.errorPage.visibility = View.GONE
+    }
+
+    private fun displayError(e : Exception) {
+        binding.errorLayout.errorText.text = e.toString()
+        binding.progressBar.visibility = View.GONE
+        binding.recyclerview.visibility = View.GONE
+        binding.errorLayout.errorPage.visibility = View.VISIBLE
+    }
+
+    private fun displayData(data: List<Device>) {
+        binding.progressBar.visibility = View.GONE
+        binding.recyclerview.visibility = View.VISIBLE
+        binding.errorLayout.errorPage.visibility = View.GONE
+        arguments?.let { arg -> filterBy(arg, data)}
     }
 
     /***********************************************************************************************
-     ** Data retrieval
+     ** Subscribers
      ***********************************************************************************************/
 
-    // Observe changes in HomePageViewModel's devicesStateFlow to update the view's data
-    private fun observeDevices() {
-        if (devices.isEmpty()) binding.progressBar.visibility = View.VISIBLE
-
+    // Collect changes in HomePageViewModel's devicesUiState to update the view's data
+    private fun collectDevices() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.devicesStateFlow.collectLatest {
-                    it?.let { devices ->
-                        arguments?.let { arg -> filterBy(arg, devices)}
-                        if (devices.isNotEmpty()) binding.progressBar.visibility = View.GONE
+                viewModel.devicesUiState.collectLatest {
+                    when (it) {
+                        is DeviceUiState.Loading -> displayIsLoading()
+                        is DeviceUiState.Error -> displayError(it.error)
+                        is DeviceUiState.Success -> displayData(it.devices)
                     }
                 }
             }
@@ -145,8 +155,18 @@ class GridViewFragment : Fragment() {
         }
     }
 
+    /***********************************************************************************************
+     ** Utils
+     ***********************************************************************************************/
+    // Return the number of columns that can fit in a Grid depending on the screen dimensions
+    private fun columnNumberCalculator() : Int {
+        val recyclerViewItemWidth = 176
+        val displayMetrics = requireContext().resources.displayMetrics
+        val dpWidth = displayMetrics.widthPixels / displayMetrics.density
+        return (dpWidth / recyclerViewItemWidth).toInt()
+    }
+
     companion object {
         const val OPTION = "option"
     }
-
 }

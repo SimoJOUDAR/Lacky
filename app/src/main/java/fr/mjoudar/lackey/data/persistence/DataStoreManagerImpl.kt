@@ -44,7 +44,6 @@ class DataStoreManagerImpl(private val context: Context) : DataStoreManager {
             it[ZIPCODE] = user.address.zipCode.toString()
             it[COUNTRY] = user.address.country
             it[BIRTH_DATE] = user.birthDate.toString()
-            Log.e("Test1", "updateUser()")
         }
     }
 

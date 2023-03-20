@@ -24,12 +24,4 @@ object RetrofitInstance {
     }
 
     val apiClient = ApiClient(moduloService)
-
-    val api: ModuloService by lazy {
-        Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(MoshiConverterFactory.create(moshi))
-            .build()
-            .create(ModuloService::class.java)
-    }
 }

@@ -1,6 +1,5 @@
 package fr.mjoudar.lackey.presentation.deviceSteering
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -81,7 +80,6 @@ class DeviceSteeringViewModel @Inject constructor (): ViewModel() {
             it.mode = switchOnOff(it.mode)
             viewModelScope.launch(Dispatchers.IO) {
                 _lightStateFlow.emit(it)
-                Log.e("Test2", "modeLightListener() = $it")
             }
 
         }
@@ -225,7 +223,6 @@ class DeviceSteeringViewModel @Inject constructor (): ViewModel() {
     }
 
     companion object {
-        const val DEVICE_ARG = "device"
         const val STEP = 10
         const val PERCENTAGE_UPPER_LIMIT = 100
         const val PERCENTAGE_LOWER_LIMIT = 0

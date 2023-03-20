@@ -1,7 +1,6 @@
 package fr.mjoudar.lackey.presentation.deviceSteering
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -80,7 +79,7 @@ class DeviceSteeringFragment : Fragment() {
     private fun displayLightSteering(data: Light) {
         binding.light = data
         deviceSteeringViewModel.setLight(data)
-        setLightObservers()
+        setLightSubscriber()
         lightSeekbarListener()
         binding.lightInfoViewer.viewLight.visibility = View.VISIBLE
         binding.rollerShutterInfoViewer.viewRs.visibility = View.GONE
@@ -91,7 +90,7 @@ class DeviceSteeringFragment : Fragment() {
     private fun displayRollerShutterSteering(data: RollerShutter) {
         binding.rollerShutter = data
         deviceSteeringViewModel.setRollerShutter(data)
-        setRsObservers()
+        setRsSubscriber()
         rstSeekbarListener()
         binding.lightInfoViewer.viewLight.visibility = View.GONE
         binding.rollerShutterInfoViewer.viewRs.visibility = View.VISIBLE
@@ -102,7 +101,7 @@ class DeviceSteeringFragment : Fragment() {
     private fun displayHeaterSteering(data: Heater) {
         binding.heater = data
         deviceSteeringViewModel.setHeater(data)
-        setHeaterObservers()
+        setHeaterSubscriber()
         heaterSeekbarListener()
         binding.lightInfoViewer.viewLight.visibility = View.GONE
         binding.rollerShutterInfoViewer.viewRs.visibility = View.GONE
@@ -110,15 +109,14 @@ class DeviceSteeringFragment : Fragment() {
     }
 
     /**********************************************************************************************
-     ** Observers
+     ** Subscribers
      **********************************************************************************************/
 
     // Observe changes in DeviceSteeringViewModel's lightStateFlow to update the view's data
-    private fun setLightObservers() {
+    private fun setLightSubscriber() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 deviceSteeringViewModel.lightStateFlow.collectLatest {
-                    Log.e("Test2", "setLightObservers() = $it")
                     it?.let {
                         binding.light = it
                         mHomepageViewModel.updateDevice(it.toDevice())
@@ -129,7 +127,7 @@ class DeviceSteeringFragment : Fragment() {
     }
 
     // Observe changes in DeviceSteeringViewModel's rsStateFlow to update the view's data
-    private fun setRsObservers() {
+    private fun setRsSubscriber() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 deviceSteeringViewModel.rsStateFlow.collectLatest {
@@ -143,7 +141,7 @@ class DeviceSteeringFragment : Fragment() {
     }
 
     // Observe changes in DeviceSteeringViewModel's heaterStateFlow to update the view's data
-    private fun setHeaterObservers() {
+    private fun setHeaterSubscriber() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 deviceSteeringViewModel.heaterStateFlow.collectLatest {
