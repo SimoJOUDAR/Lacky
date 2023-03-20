@@ -36,7 +36,7 @@ class GridViewViewModel @Inject constructor(
     // Update the deviceUiState based on the received Response
     private fun getDevicesState() = viewModelScope.launch(Dispatchers.IO) {
         val defaultException = Exception("An unidentified error occurred. We couldn't load the data. Please, check your internet connection.")
-        val response = repository.getDevicesState()
+        val response = repository.getData()
         if (response.isSuccessful && response.body.toDevices() != null) {
             _devicesUiState.emit(DeviceUiState.Success(response.body.toDevices()!!))
         } else {
