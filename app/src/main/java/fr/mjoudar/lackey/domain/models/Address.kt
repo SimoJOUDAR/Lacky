@@ -10,11 +10,11 @@ import kotlinx.android.parcel.Parcelize
  ***************************************************************************************************/
 @Parcelize
 data class Address(
-    var _streetCode: String,
-    var _street: String,
-    var _city: String,
-    var _zipCode: Int,
-    var _country: String
+    private var _streetCode: String,
+    private var _street: String,
+    private var _city: String,
+    private var _zipCode: Int,
+    private var _country: String
 ) : Parcelable, BaseObservable() {
 
     @get:Bindable

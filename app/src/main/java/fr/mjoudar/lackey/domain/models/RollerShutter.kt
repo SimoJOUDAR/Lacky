@@ -10,9 +10,9 @@ import kotlinx.android.parcel.Parcelize
  ***************************************************************************************************/
 @Parcelize
 data class RollerShutter(
-    var _id: Int,
-    var _deviceName: String,
-    var _position: Int
+    private var _id: Int,
+    private var _deviceName: String,
+    private var _position: Int
 ) : Parcelable, BaseObservable() {
 
     @get:Bindable

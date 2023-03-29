@@ -10,10 +10,10 @@ import kotlinx.android.parcel.Parcelize
  ***************************************************************************************************/
 @Parcelize
 data class Heater(
-    var _id: Int,
-    var _deviceName: String,
-    var _temperature: Double,
-    var _mode: Mode
+    private var _id: Int,
+    private var _deviceName: String,
+    private var _temperature: Double,
+    private var _mode: Mode
 ) : Parcelable, BaseObservable() {
 
     @get:Bindable

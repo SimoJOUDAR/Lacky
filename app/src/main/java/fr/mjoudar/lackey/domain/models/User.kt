@@ -10,10 +10,10 @@ import kotlinx.android.parcel.Parcelize
  ***************************************************************************************************/
 @Parcelize
 data class User(
-    var _firstName: String,
-    var _lastName: String,
-    var _address: Address,
-    var _birthDate: Long
+    private var _firstName: String,
+    private var _lastName: String,
+    private var _address: Address,
+    private var _birthDate: Long
 ): Parcelable, BaseObservable() {
 
     @get:Bindable

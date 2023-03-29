@@ -10,13 +10,13 @@ import kotlinx.android.parcel.Parcelize
  ***************************************************************************************************/
 @Parcelize
 data class Device(
-    var _id: Int = 0,
-    var _productType: ProductType,
-    var _deviceName: String = "",
-    var _intensity: Int = 0,
-    var _mode: String = "OFF",
-    var _position: Int = 0,
-    var _temperature: Double = 0.0
+    private var _id: Int = 0,
+    private var _productType: ProductType,
+    private var _deviceName: String = "",
+    private var _intensity: Int = 0,
+    private var _mode: String = "OFF",
+    private var _position: Int = 0,
+    private var _temperature: Double = 0.0
 ) : Parcelable, BaseObservable() {
 
     @get:Bindable

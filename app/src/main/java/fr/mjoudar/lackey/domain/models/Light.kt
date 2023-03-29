@@ -10,10 +10,10 @@ import kotlinx.android.parcel.Parcelize
  ***************************************************************************************************/
 @Parcelize
 data class Light(
-    var _id: Int,
-    var _deviceName: String,
-    var _intensity: Int,
-    var _mode: Mode
+    private var _id: Int,
+    private var _deviceName: String,
+    private var _intensity: Int,
+    private var _mode: Mode
 ) : Parcelable, BaseObservable() {
 
     @get:Bindable
